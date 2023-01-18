@@ -2,7 +2,7 @@
 % Please edit documentation in R/matvecprod.R
 \name{matvecprod}
 \alias{matvecprod}
-\title{Matrix and Vector Products}
+\title{Products of Vectors and Matrices}
 \usage{
 matvecprod(A, B, V, W)
 }
@@ -19,7 +19,7 @@ matvecprod(A, B, V, W)
 A numeric vector (AB)V or A(BV)
 }
 \description{
-Matrix and Vector Products
+Products of Vectors and Matrices
 }
 \examples{
 A = matrix(data=c(1,2,3,4), nrow =2, ncol=2, byrow=T)
