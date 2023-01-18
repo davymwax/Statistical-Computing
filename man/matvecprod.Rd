@@ -19,7 +19,10 @@ matvecprod(A, B, V, W)
 A numeric vector (AB)V or A(BV)
 }
 \description{
-Products of Vectors and Matrices
+This package computes the product of two matrices and a vector. 
+This can be done by the user in two ways by switching the fourth argument.
+One way computes (AB)v and the other way computes A(Bv). 
+In the example below we use micro-benching to measure the performance of the two ways to compute the product above.
 }
 \examples{
 A = matrix(data=c(1,2,3,4), nrow =2, ncol=2, byrow=T)
