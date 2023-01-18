@@ -1,15 +1,10 @@
 #' Matrix and Vector Products
 #'
-#' @param A A matrix
-#' @param B A matrix
-#' @param V A vector
-#' @param W A number 1 or 2, which tells us the way the product is to be computed
-#'
-<<<<<<< HEAD
+#' @param A m by n Matrix
+#' @param B n by p Matrix
+#' @param V vector of length n
+#' @param W numeric (1 or 2), which tells us the way the product is to be computed
 #' @return A numeric vector (AB)V or A(BV)
-=======
-#' @return A numeric vector
->>>>>>> ab2d73cac3e69daa65cb2d5a13a4e9f816c1a19f
 #' @export
 #'
 #' @examples
