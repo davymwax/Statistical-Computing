@@ -28,9 +28,7 @@ matvecprod <- function (A, B, V) {
   }
   return(M)
   }
-  
 
-matvecprod(A, B, V)
     
 
 
