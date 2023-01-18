@@ -14,6 +14,7 @@
 #' V = c(3,8)
 #' W = 1
 #' matvecprod(A, B, V, W)
+#' bench::mark(matvecprod(A, B, V,W=1), matvecprod(A, B, V,W=2))
 matvecprod <- function (A, B, V, W) {
   m = dim(A)[1]
   p = dim(B)[2]

@@ -28,4 +28,5 @@ V = c(3,8)
 V = c(3,8)
 W = 1
 matvecprod(A, B, V, W)
+bench::mark(matvecprod(A, B, V,W=1), matvecprod(A, B, V,W=2))
 }
