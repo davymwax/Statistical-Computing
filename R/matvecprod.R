@@ -5,7 +5,11 @@
 #' @param V A vector
 #' @param W A number 1 or 2, which tells us the way the product is to be computed
 #'
+<<<<<<< HEAD
 #' @return A numeric vector (AB)V or A(BV)
+=======
+#' @return A numeric vector
+>>>>>>> ab2d73cac3e69daa65cb2d5a13a4e9f816c1a19f
 #' @export
 #'
 #' @examples
