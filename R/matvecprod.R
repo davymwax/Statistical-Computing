@@ -1,5 +1,10 @@
 #' Products of Vectors and Matrices
-#'
+#' 
+#' This package computes the product of two matrices and a vector. 
+#' This can be done by the user in two ways by switching the fourth argument.
+#' One way computes (AB)v and the other way computes A(Bv). 
+#' In the example below we use micro-benching to measure the performance of the two ways to compute the product above. 
+#' 
 #' @param A m by n Matrix
 #' @param B n by p Matrix
 #' @param V vector of length n
