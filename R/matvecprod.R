@@ -1,3 +1,14 @@
+#' Title
+#'
+#' @param A 
+#' @param B 
+#' @param V 
+#' @param W 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 matvecprod <- function (A, B, V, W) {
   m = dim(A)[1]
   p = dim(B)[2]
