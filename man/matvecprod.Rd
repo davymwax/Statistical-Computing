@@ -2,19 +2,30 @@
 % Please edit documentation in R/matvecprod.R
 \name{matvecprod}
 \alias{matvecprod}
-\title{Title}
+\title{Matrix and Vector Products}
 \usage{
 matvecprod(A, B, V, W)
 }
 \arguments{
-\item{A}{}
+\item{A}{A matrix}
 
-\item{B}{}
+\item{B}{A matrix}
 
-\item{V}{}
+\item{V}{A vector}
 
-\item{W}{}
+\item{W}{A number 1 or 2, which tells us the way the product is to be computed}
+}
+\value{
+A numeric vector
 }
 \description{
-Title
+Matrix and Vector Products
+}
+\examples{
+A = matrix(data=c(1,2,3,4), nrow =2, ncol=2, byrow=T)
+B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
+V = c(3,8)
+V = c(3,8)
+W = 1
+matvecprod(A, B, V, W)
 }
