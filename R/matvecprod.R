@@ -1,4 +1,4 @@
-#' Matrix and Vector Products
+#' Products of Vectors and Matrices
 #'
 #' @param A m by n Matrix
 #' @param B n by p Matrix
