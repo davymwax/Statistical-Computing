@@ -1,14 +1,20 @@
-#' Title
+#' Matrix and Vector Products
 #'
-#' @param A 
-#' @param B 
-#' @param V 
-#' @param W 
+#' @param A A matrix
+#' @param B A matrix
+#' @param V A vector
+#' @param W A number 1 or 2, which tells us the way the product is to be computed
 #'
-#' @return
+#' @return A numeric vector (AB)V or A(BV)
 #' @export
 #'
 #' @examples
+#' A = matrix(data=c(1,2,3,4), nrow =2, ncol=2, byrow=T)
+#' B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
+#' V = c(3,8)
+#' V = c(3,8)
+#' W = 1
+#' matvecprod(A, B, V, W)
 matvecprod <- function (A, B, V, W) {
   m = dim(A)[1]
   p = dim(B)[2]
