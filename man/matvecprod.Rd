@@ -7,13 +7,13 @@
 matvecprod(A, B, V, W)
 }
 \arguments{
-\item{A}{A matrix}
+\item{A}{m by n Matrix}
 
-\item{B}{A matrix}
+\item{B}{n by p Matrix}
 
-\item{V}{A vector}
+\item{V}{vector of length n}
 
-\item{W}{A number 1 or 2, which tells us the way the product is to be computed}
+\item{W}{numeric (1 or 2), which tells us the way the product is to be computed}
 }
 \value{
 A numeric vector (AB)V or A(BV)
