@@ -3,13 +3,13 @@
 #' This package computes the product of two matrices and a vector. 
 #' This can be done by the user in two ways by switching the fourth argument.
 #' One way computes (AB)v and the other way computes A(Bv). 
-#' In the example below we use micro-benching to measure the performance of the two ways to compute the product above. 
+#' In the example below we use micro-benching to measure the performance of the two ways of doing this computation. 
 #' 
-#' @param A a m by n matrix
-#' @param B a n by p matrix
-#' @param V a vector 
-#' @param W logical (T or F), if T we compute (AB)v if F we compute A(Bv).
-#' @return A numeric vector of length m
+#' @param A : m by n matrix
+#' @param B : n by p matrix
+#' @param V : numeric vector 
+#' @param W : logical (T or F), if T we compute (AB)v if F we compute A(Bv).
+#' @return  : numeric vector
 #' @export
 #'
 #' @examples
