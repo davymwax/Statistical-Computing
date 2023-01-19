@@ -8,7 +8,7 @@
 #' @param A a m by n matrix
 #' @param B a n by p matrix
 #' @param V a vector 
-#' @param W numeric (1 or 2), which tells us the way the product is to be computed
+#' @param W logical (T or F), if T we compute (AB)v if F we compute A(Bv).
 #' @return A numeric vector of length m
 #' @export
 #'
@@ -23,7 +23,7 @@ matvecprod <- function (A, B, V, W) {
   m = dim(A)[1]
   p = dim(B)[2]
   r = dim(B)[1]
-  if (W == 1){
+  if (W == T){
   if (is.matrix(A) & is.matrix(B) == F){
     warning("Error! The first two arguments must be n by m matrices")
   } else {
@@ -50,7 +50,7 @@ matvecprod <- function (A, B, V, W) {
   }
   return(M_1)
   }
-  if (W == 2){
+  if (W == F){
     if (is.matrix(A) & is.matrix(B) == F){
       warning("Error! The first two arguments must be n by m matrices")
     } else {
@@ -75,9 +75,6 @@ matvecprod <- function (A, B, V, W) {
     }
     }
   }
-  }
-  if (W != 1 & W != 2 == F){
-    warning("Error! The fourth argument can only be numeric 1 or 2")
   }
 }
 

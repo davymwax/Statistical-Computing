@@ -7,16 +7,16 @@
 matvecprod(A, B, V, W)
 }
 \arguments{
-\item{A}{m by n Matrix}
+\item{A}{a m by n matrix}
 
-\item{B}{n by p Matrix}
+\item{B}{a n by p matrix}
 
-\item{V}{vector of length n}
+\item{V}{a vector}
 
-\item{W}{numeric (1 or 2), which tells us the way the product is to be computed}
+\item{W}{logical (T or F), if T we compute (AB)v if F we compute A(Bv).}
 }
 \value{
-A numeric vector (AB)V or A(BV)
+A numeric vector of length m
 }
 \description{
 This package computes the product of two matrices and a vector. 
