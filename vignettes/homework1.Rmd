@@ -119,6 +119,7 @@ To measure or compare the performance/computational costs of the two ways of doi
 
 Here are the results:
 ```{r "microbenchmarking", include=FALSE}
+set.seed(1223)
 library(bench)
 library(kableExtra)
 A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
