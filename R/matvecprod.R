@@ -16,9 +16,9 @@
 #' A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
 #' B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
 #' V = c(3,8)
-#' W = 1
+#' W = T
 #' matvecprod(A, B, V, W)
-#' bench::mark(matvecprod(A, B, V,W=1), matvecprod(A, B, V,W=2))
+#' bench::mark(matvecprod(A, B, V, W=T), matvecprod(A, B, V, W=F))
 matvecprod <- function (A, B, V, W) {
   m = dim(A)[1]
   p = dim(B)[2]
