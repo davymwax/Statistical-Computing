@@ -3,7 +3,7 @@ Type: Package
 Title: Products of Vectors and Matrices
 Version: 0.1.0
 Author: David Mwakima
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: David Mwakima <mwakima.david@gmail.com>
 Description: A package for carrying out checks on the optimization of matrix multiplications.
 We document in the .html file the level of optimization achieved by ordering matrix and vector multiplication as A(Bv) rather than (AB)v.
 License: None
