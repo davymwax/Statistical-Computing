@@ -93,12 +93,13 @@ matvecprod <- function (A, B, v, W) {
 ## Usage
 
 The `matvecprod()` requires four arguments:
-\begin{enumerate}
+
+\begin{itemize}
 \item $\bf{A}$ an $m \times n$ matrix 
 \item $\bf{B}$ an $n \times p$ matrix
 \item $\bf{v}^{T}$ is an $p \times 1$ matrix
 \item $W$ a Boolean or logical object
-\end{enumerate}
+\end{itemize}
 
 If `W == T` we compute $(\bf{A}\bf{B})\bf{v}^{T}$ otherwise we compute $\bf{A}(\bf{B}\bf{v}^{T})$
 
