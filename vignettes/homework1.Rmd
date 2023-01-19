@@ -1,5 +1,7 @@
 ---
-title: "homework1"
+title: "Homework 1"
+author: "David Mwakima"
+date: "01/19/2023"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{homework1}
@@ -18,13 +20,13 @@ knitr::opts_chunk$set(
 
 In statistical computing, it is of interest and useful to know the computational costs (in terms of computing time and computer memory allocation) of certain operations one has to do while working with data. Knowing these costs is interesting and useful because if the computational costs are too high or prohibitive given current technology, then one would want to simplify the operations using less computationally intensive methods. 
 
-A good illustration of this is in the use of numerical linear algebra in data analysis, for example to multiply matrices or to invert them. If $\bf{A}$ is an $m \times n$ matrix and $\bf{v}^{T}$ is an $n \times 1$ matrix (vector), we know that the computation complexity $O(mn)$ (i.e., quadratic). But if $\bf{A}$ is an $m \times n$ matrix and $\textbf{B}$ is an $n \times p$ matrix, the order of complexity is $O(n^{3})$ (i.e., cubic). 
+A good illustration of this is in the use of numerical linear algebra in data analysis, for example to multiply matrices or to invert them. If $\bf{A}$ is an $m \times n$ matrix and $\bf{v}^{T}$ is an $n \times 1$ matrix (vector), we know that the computation complexity is $O(mn)$ (i.e., quadratic). But if $\bf{A}$ is an $m \times n$ matrix and $\textbf{B}$ is an $n \times p$ matrix, the order of complexity is $O(n^{3})$ (i.e., cubic). 
 
-This suggests the following thought. If the task is to find the value of $\bf{AB}\bf{v}^{T}$, then it could be smart to order the operations as $\bf{A}(\bf{B}\bf{v}^{T})$ rather than $(\bf{A}\bf{B})\bf{v}^{T}$. For the order of complexity of the first operation is only quadratic in the number of dimensions of $\bf{A}$, $\bf{B}$ and $\bf{v^{T}}$ while the order of complexity of the second operation is cubic.
+This suggests the following thought. If the task is to find the value of $\bf{AB}\bf{v}^{T}$, then it could be smart to order the operations as $\bf{A}(\bf{B}\bf{v}^{T})$ rather than $(\bf{A}\bf{B})\bf{v}^{T}$ in order to optimize the computational time. For the order of complexity of the first operation is only quadratic in the number of dimensions of $\bf{A}$, $\bf{B}$ and $\bf{v^{T}}$ while the order of complexity of the second operation is cubic.
 
 ## The function `matvecprod()`
 
-The function `matvecprod()`, which I have written, is used to show the advantages of ordering the operations in matrix multiplications suitably. It is written in such a way that by changing one of the parameters in the function, one can compute matrix and vector products in the two different possible ways mentioned above.
+The function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax), which I have written, is used to show the advantages of ordering the operations in matrix multiplications suitably. It is written in such a way that by changing one of the parameters in the function, one can compute matrix and vector products in the two different possible ways mentioned above.
 
 ```{r "matvecprod", echo=FALSE}
 library(temp)
@@ -89,32 +91,57 @@ matvecprod <- function (A, B, v, W) {
 
 ```
 
-
 ## Usage
 
-The `matvecprod()` requires four arguments:
+The [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax) requires four arguments:
 
 #.  $\bf{A}$ an $m \times n$ matrix 
 #.  $\bf{B}$ an $n \times p$ matrix
-#.  $\bf{v}^{T}$ is an $p \times 1$ matrix
+#.  $\bf{v}^{T}$ is a $p \times 1$ matrix
 #.  $W$ a Boolean or logical object
 
 If `W == T` we compute $(\bf{A}\bf{B})\bf{v}^{T}$ otherwise we compute $\bf{A}(\bf{B}\bf{v}^{T})$
 
-Here is an illustration.
+Here is an illustration of how it is used.
 
 ```{r "Example", eval=FALSE}
-library(matvecprod)
 A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
 B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
 v = c(3,8)
 W = T
-matvecprod(A, B, V, W)
+matvecprod(A, B, v, W)
 ```
 
 
+## Performace
 
+To measure or compare the performance/computational costs of the two ways of doing the matrix multiplication, I used used micro-benchmarking using the function [`bench()`](https://CRAN.R-project.org/package=bench).
 
-```{r setup}
-
+Here are the results:
+```{r "microbenchmarking", include=FALSE}
+library(bench)
+library(kableExtra)
+A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
+B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
+v = c(3,8)
+results <- as.data.frame(bench::mark(matvecprod(A, B, v, W=T), matvecprod(A, B, v, W=F)))
 ```
+
+```{r "tab1", echo=FALSE}
+results <- results[, c(1, 2, 3, 10)]
+results %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Results of Microbenchmarking",
+        booktabs = TRUE)
+```
+
+## Conclusion
+
+The results suggest that by ordering the operation as $\bf{A}(\bf{B}\bf{v}^{T})$ rather than $(\bf{A}\bf{B})\bf{v}^{T}$ lowers the minimum and median computational time by about $50\%$! It is therefore useful to think about how we order matrix and vector multiplications in order to achieve optimal computational times.
+
+
+
+
+
