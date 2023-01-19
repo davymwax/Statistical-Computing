@@ -5,11 +5,11 @@
 #' One way computes (AB)v and the other way computes A(Bv). 
 #' In the example below we use micro-benching to measure the performance of the two ways to compute the product above. 
 #' 
-#' @param A m by n Matrix
-#' @param B n by p Matrix
-#' @param V vector of length n
+#' @param A a m by n matrix
+#' @param B a n by p matrix
+#' @param V a vector 
 #' @param W numeric (1 or 2), which tells us the way the product is to be computed
-#' @return A numeric vector (AB)V or A(BV)
+#' @return A numeric vector of length m
 #' @export
 #'
 #' @examples
@@ -75,6 +75,9 @@ matvecprod <- function (A, B, V, W) {
     }
     }
   }
+  }
+  if (W != 1 & W != 2 == F){
+    warning("Error! The fourth argument can only be numeric 1 or 2")
   }
 }
 
