@@ -113,7 +113,7 @@ matvecprod(A, B, v, W)
 ```
 
 
-## Performace
+## Performance
 
 To measure or compare the performance/computational costs of the two ways of doing the matrix multiplication, I used used micro-benchmarking using the function [`bench()`](https://CRAN.R-project.org/package=bench).
 
