@@ -26,9 +26,8 @@ This suggests the following thought. If the task is to find the value of $\bf{AB
 
 The function `matvecprod()`, which I have written, is used to show the advantages of ordering the operations in matrix multiplications suitably. It is written in such a way that by changing one of the parameters in the function, one can compute matrix and vector products in the two different possible ways mentioned above.
 
-
-
 ```{r "matvecprod", echo=FALSE}
+library(temp)
 matvecprod <- function (A, B, v, W) {
   m = dim(A)[1]
   p = dim(B)[2]
@@ -103,14 +102,20 @@ The `matvecprod()` requires four arguments:
 
 If `W == T` we compute $(\bf{A}\bf{B})\bf{v}^{T}$ otherwise we compute $\bf{A}(\bf{B}\bf{v}^{T})$
 
-```{r "Example"}
+Here is an illustration.
 
-
+```{r "Example", eval=FALSE}
+library(matvecprod)
+A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
+B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
+v = c(3,8)
+W = T
+matvecprod(A, B, V, W)
 ```
 
 
 
 
 ```{r setup}
-library(temp)
+
 ```
