@@ -7,19 +7,19 @@
 #' 
 #' @param A : m by n matrix
 #' @param B : n by p matrix
-#' @param V : numeric vector 
+#' @param v : numeric vector 
 #' @param W : logical (T or F), if T we compute (AB)v if F we compute A(Bv).
-#' @return  : numeric vector
+#' @return  numeric vector
 #' @export
 #'
 #' @examples
 #' A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
 #' B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
-#' V = c(3,8)
+#' v = c(3,8)
 #' W = T
 #' matvecprod(A, B, V, W)
-#' bench::mark(matvecprod(A, B, V, W=T), matvecprod(A, B, V, W=F))
-matvecprod <- function (A, B, V, W) {
+#' bench::mark(matvecprod(A, B, v, W=T), matvecprod(A, B, v, W=F))
+matvecprod <- function (A, B, v, W) {
   m = dim(A)[1]
   p = dim(B)[2]
   r = dim(B)[1]
@@ -34,15 +34,15 @@ matvecprod <- function (A, B, V, W) {
       for (j in 1:p){
             C_1[i, j] = sum(A[i, ] * B[, j])
           }
-      if (is.vector(V) == F){
+      if (is.vector(v) == F){
     warning("Error! Third Argument must be a Vector")
       } else {
-        n = length(V)
+        n = length(v)
         if(n != dim(C_1)[2]){
           warning("Error! Check number of columns and dimensions of vector")} else {
               M_1 = rep(0, m)
             for (i in 1:m){
-                M_1[i] = sum(C_1[i, ] * V)
+                M_1[i] = sum(C_1[i, ] * v)
               }
             }
           }
@@ -54,15 +54,15 @@ matvecprod <- function (A, B, V, W) {
     if (is.matrix(A) & is.matrix(B) == F){
       warning("Error! The first two arguments must be n by m matrices")
     } else {
-    if (is.vector(V) == F){
+    if (is.vector(v) == F){
       warning("Error! The third argument must be a vector")
     } else {
-      n = length(V)
+      n = length(v)
       if(n != p){
         warning("Error! Check number of columns and dimensions of vector")} else {
           C_2 = rep(0, r)
           for (i in 1:r){
-            C_2[i] = sum(B[i, ] * V)
+            C_2[i] = sum(B[i, ] * v)
           }
           if (dim(A)[2] != length(C_2)){
             warning("Error! Check number of columns and dimensions of vector")} else {

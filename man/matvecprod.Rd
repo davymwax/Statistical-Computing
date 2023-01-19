@@ -4,19 +4,19 @@
 \alias{matvecprod}
 \title{Products of Vectors and Matrices}
 \usage{
-matvecprod(A, B, V, W)
+matvecprod(A, B, v, W)
 }
 \arguments{
 \item{A}{: m by n matrix}
 
 \item{B}{: n by p matrix}
 
-\item{V}{: numeric vector}
+\item{v}{: numeric vector}
 
 \item{W}{: logical (T or F), if T we compute (AB)v if F we compute A(Bv).}
 }
 \value{
-: numeric vector
+numeric vector
 }
 \description{
 This package computes the product of two matrices and a vector. 
@@ -27,8 +27,8 @@ In the example below we use micro-benching to measure the performance of the two
 \examples{
 A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
 B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
-V = c(3,8)
+v = c(3,8)
 W = T
 matvecprod(A, B, V, W)
-bench::mark(matvecprod(A, B, V, W=T), matvecprod(A, B, V, W=F))
+bench::mark(matvecprod(A, B, v, W=T), matvecprod(A, B, v, W=F))
 }
