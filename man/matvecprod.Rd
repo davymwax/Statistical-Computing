@@ -29,6 +29,6 @@ A = matrix(data=c(1,2,3,4,2,1,9,2), nrow = 4, ncol=2, byrow=T)
 B = matrix(data=c(3,4,5,6), nrow =2, ncol=2, byrow=T)
 v = c(3,8)
 W = T
-matvecprod(A, B, V, W)
+matvecprod(A, B, v, W)
 bench::mark(matvecprod(A, B, v, W=T), matvecprod(A, B, v, W=F))
 }

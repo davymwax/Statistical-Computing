@@ -1,6 +1,6 @@
 #' Simulating a Multivariate Normal
 #' 
-#' This package simulates N realizations  multivariate normal given 
+#' This package simulates N realizations multivariate normal given 
 #'
 #' @param mu 
 #' @param sigma 
