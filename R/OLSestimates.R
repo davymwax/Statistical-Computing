@@ -16,7 +16,7 @@
 #' X <- as.matrix(sim.data[, c(3:6)])
 #' y <- as.vector(sim.data[, 1])
 #' W = T
-#' beta.estimator(X, y)
+#' beta.estimator(X, y, W)
 #'
 beta.estimator <- function(X, y, W){
   A = cov(X)
