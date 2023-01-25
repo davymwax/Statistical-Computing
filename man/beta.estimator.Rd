@@ -21,8 +21,8 @@ OLS Beta Estimates using either Cholesky or QR Decomposition
 }
 \examples{
 
-sim.data <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/homework2_regression.csv")
-source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/matvecprod.R")
+sim.data <- read.csv("https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/main/homework2_regression.csv")
+source("https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/main/R/matvecprod.R")
 dim(sim.data)
 head(sim.data)
 X <- as.matrix(sim.data[, c(3:6)])
