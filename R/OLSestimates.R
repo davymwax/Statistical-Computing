@@ -15,10 +15,12 @@
 #' head(sim.data)
 #' X <- as.matrix(sim.data[, c(3:6)])
 #' y <- as.vector(sim.data[, 1])
-#' chol.beta.estimator(X, y)
+#' W = T
+#' beta.estimator(X, y)
 #'
-chol.beta.estimator <- function(X, y, W){
+beta.estimator <- function(X, y, W){
   A = cov(X)
+  if (W == T){
   if (any(eigen(A)$values <= 0)){
     warning("Error: Sigma must be positive definite")} else {
   L = chol(A)
@@ -26,5 +28,8 @@ chol.beta.estimator <- function(X, y, W){
   beta_hat = matvecprod(inv_A, t(X), y, W=F)
   return(beta_hat)
     }
+  } else {
+    
+  }
 }
 
