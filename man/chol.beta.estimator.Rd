@@ -2,20 +2,22 @@
 % Please edit documentation in R/OLSestimates.R
 \name{chol.beta.estimator}
 \alias{chol.beta.estimator}
-\title{OLS Beta Estimates using Cholesky Decomposition}
+\title{OLS Beta Estimates using either Cholesky or QR Decomposition}
 \usage{
-\method{chol}{beta.estimator}(X, y)
+\method{chol}{beta.estimator}(X, y, W)
 }
 \arguments{
 \item{X:}{An n by p design matrix (including intercept)}
 
 \item{y:}{A numeric vector of length n}
+
+\item{W:}{A logical (boolean) object. If W = T, then OLS algorithm uses Cholesky, otherwise OLS algorithm uses QR}
 }
 \value{
 A numeric vector
 }
 \description{
-OLS Beta Estimates using Cholesky Decomposition
+OLS Beta Estimates using either Cholesky or QR Decomposition
 }
 \examples{
 
