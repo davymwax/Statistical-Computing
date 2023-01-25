@@ -10,11 +10,11 @@
 #' @export
 #'
 #' @examples
+#' set.seed(1247)
 #' N = 100
 #' n = 4
-#' p = 2
 #' mu = rep(0, n)
-#' X = matrix(data=sample(1:20, n*p), nrow=n)
+#' X = matrix(data=sample(1:20, n*n), nrow=n)
 #' sigma = cov(X)
 #' multvnorm(mu, sigma, N)
 multvnorm <- function(mu, sigma, N){
