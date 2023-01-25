@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' library(MASS)
+#' 
 #' set.seed(1247)
 #' N = 100
 #' n = 4
@@ -19,12 +19,11 @@
 #' sigma = cov(X)
 #' multvnorm(mu, sigma, N)
 #' 
-#'
-#' @Comparison
-#' Comparing the results with 
-#' 
+#' @comparison
+#' Comparing the results with the implementation in the MASS package
 #' 
 #' @examples
+#' library(MASS)
 #' mean(sapply(multvnorm(mu, sigma, N), mean))
 #' mean(mvrnorm(n = N, mu, sigma))
 #' 
