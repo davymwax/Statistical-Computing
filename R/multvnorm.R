@@ -2,18 +2,21 @@
 #' 
 #' This package simulates N realizations multivariate normal given 
 #'
-#' @param mu 
-#' @param sigma 
-#' @param N 
+#' @param mu : a numeric vector
+#' @param sigma : an m by m positive (semi)definite matrix
+#' @param N : numeric integer greater than or equal 1.
 #'
-#' @return
+#' @return a list
 #' @export
 #'
 #' @examples
 #' N = 100
+#' m = 4
+#' n = 4
 #' mu = rep(0, n)
-#' X = matrix(data=sample(1:20, n*n), ncol=n)
+#' X = matrix(data=sample(1:20, m*n), nrow=m)
 #' sigma = X %*% t(X)
+#' multvnorm(mu, sigma, N)
 multvnorm <- function(mu, sigma, N){
   n = length(mu)
   z = vector(mode = "list", length = N)
