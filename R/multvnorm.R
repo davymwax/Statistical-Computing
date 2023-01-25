@@ -3,7 +3,7 @@
 #' This package simulates N realizations multivariate normal given 
 #'
 #' @param mu : a numeric vector
-#' @param sigma : an m by m positive (semi)definite matrix
+#' @param sigma : an n by n positive definite matrix
 #' @param N : numeric integer greater than or equal 1.
 #'
 #' @return a list
@@ -11,10 +11,9 @@
 #'
 #' @examples
 #' N = 100
-#' m = 4
 #' n = 4
 #' mu = rep(0, n)
-#' X = matrix(data=sample(1:20, m*n), nrow=m)
+#' X = matrix(data=sample(1:20, n*n), nrow=n)
 #' sigma = X %*% t(X)
 #' multvnorm(mu, sigma, N)
 multvnorm <- function(mu, sigma, N){
