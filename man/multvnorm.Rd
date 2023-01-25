@@ -24,7 +24,7 @@ set.seed(1247)
 N = 100
 n = 4
 mu = rep(0, n)
-X = matrix(data=sample(1:20, n*n), nrow=n)
+X = matrix(data=sample(1:100, replace = F, n*n), nrow=n)
 sigma = cov(X)
 multvnorm(mu, sigma, N)
 }

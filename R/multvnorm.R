@@ -14,7 +14,7 @@
 #' N = 100
 #' n = 4
 #' mu = rep(0, n)
-#' X = matrix(data=sample(1:20, n*n), nrow=n)
+#' X = matrix(data=sample(1:100, replace = F, n*n), nrow=n)
 #' sigma = cov(X)
 #' multvnorm(mu, sigma, N)
 multvnorm <- function(mu, sigma, N){
@@ -28,8 +28,8 @@ multvnorm <- function(mu, sigma, N){
     if (is.matrix(sigma) == F){
       warning("Error: The Second Argument must be a matrix")
     } else {
-      if (dim(sigma)[1] != dim(sigma)[2]){
-        warning("Error: Sigma must be positive (semi)definite")
+      if (any(eigen(sigma)$values <= 0)){
+        warning("Error: Sigma must be positive definite")
       } else {
         for (i in 1:N){
           z[[i]] <- rnorm(n, mean=0, sd=1)
