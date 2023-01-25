@@ -20,6 +20,7 @@ a list
 This package simulates N realizations multivariate normal given
 }
 \examples{
+library(MASS)
 set.seed(1247)
 N = 100
 n = 4
@@ -27,4 +28,11 @@ mu = rep(0, n)
 X = matrix(data=sample(1:100, replace = F, n*n), nrow=n)
 sigma = cov(X)
 multvnorm(mu, sigma, N)
+
+
+mean(sapply(multvnorm(mu, sigma, N), mean))
+mean(mvrnorm(n = N, mu, sigma))
+
+sigma
+var(mvrnorm(n = N, mu, sigma))
 }
