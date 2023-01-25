@@ -1,0 +1,32 @@
+---
+title: "Homework 1"
+author: "David Mwakima"
+date: "01/25/2023"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{homework2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+```{r setup}
+library(temp)
+sim.data <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/homework2_regression.csv")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/matvecprod.R")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/OLSestimates.R")
+dim(sim.data)
+head(sim.data)
+X <- as.matrix(sim.data[, c(3:6)])
+y <- as.vector(sim.data[, 1])
+W = T
+beta.estimator(X, y, W)
+```

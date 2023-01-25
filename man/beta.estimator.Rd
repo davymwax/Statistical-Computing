@@ -21,12 +21,9 @@ OLS Beta Estimates using either Cholesky or QR Decomposition
 }
 \examples{
 
-sim.data <- read.csv("https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/main/homework2_regression.csv")
-source("https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/main/R/matvecprod.R")
-dim(sim.data)
-head(sim.data)
-X <- as.matrix(sim.data[, c(3:6)])
-y <- as.vector(sim.data[, 1])
+set.seed(1247)
+X <- matrix(sample(1:20, 16, replace=T), ncol=4)
+y <- sample(1:20, 4, replace=T)
 W = T
 beta.estimator(X, y, W)
 
