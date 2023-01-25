@@ -12,9 +12,10 @@
 #' @examples
 #' N = 100
 #' n = 4
+#' p = 2
 #' mu = rep(0, n)
-#' X = matrix(data=sample(1:20, n*n), nrow=n)
-#' sigma = X %*% t(X)
+#' X = matrix(data=sample(1:20, n*p), nrow=n)
+#' sigma = cov(X)
 #' multvnorm(mu, sigma, N)
 multvnorm <- function(mu, sigma, N){
   n = length(mu)

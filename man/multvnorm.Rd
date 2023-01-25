@@ -9,7 +9,7 @@ multvnorm(mu, sigma, N)
 \arguments{
 \item{mu}{: a numeric vector}
 
-\item{sigma}{: an m by m positive (semi)definite matrix}
+\item{sigma}{: an n by n positive definite matrix}
 
 \item{N}{: numeric integer greater than or equal 1.}
 }
@@ -21,10 +21,10 @@ This package simulates N realizations multivariate normal given
 }
 \examples{
 N = 100
-m = 4
 n = 4
+p = 2
 mu = rep(0, n)
-X = matrix(data=sample(1:20, m*n), nrows=m)
-sigma = X \%*\% t(X)
+X = matrix(data=sample(1:20, n*p), nrow=n)
+sigma = cov(X)
 multvnorm(mu, sigma, N)
 }
