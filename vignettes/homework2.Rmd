@@ -1,5 +1,5 @@
 ---
-title: "Homework 1"
+title: "Homework 2"
 author: "David Mwakima"
 date: "01/25/2023"
 output: rmarkdown::html_vignette
@@ -12,7 +12,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  rmarkdown.html_vignette.check_title = FALSE
 )
 ```
 
@@ -197,7 +198,7 @@ Although, the sample mean results of `multvnorm()` are quite close to the actual
 
 ## Question 5
 
-Here I obtain OLS estimates of the regression coefficients of a linear model fitted to the data in `homework2_regression.csv` found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/homework2_regression.csv). I implement two functions to obtain these estimates, [`chol.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/chol.beta.est.R) and [`QR.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/QR.beta.est.R). These functions use a Cholesky decomposition and QR decomposition, respectively. The implementation and documentation of the functions can be found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/tree/main/man). In paying attention to the order of operations so that my computations are performed efficiently, I used the function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/matvecprod.R) I created in a previous assignment to calculate the product of matrices and vectors making use of the associative property $A(Bv) = (AB)v$ of matrix and vector multiplication.
+Here I obtain OLS estimates of the regression coefficients of a linear model fitted to the data in [`homework2_regression.csv`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/homework2_regression.csv). I implement two functions to obtain these estimates, [`chol.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/chol.beta.est.R) and [`QR.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/QR.beta.est.R). These functions use a Cholesky decomposition and QR decomposition, respectively. The implementation and documentation of the functions can be found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/tree/main/man). In paying attention to the order of operations so that my computations are performed efficiently, I used the function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/matvecprod.R) I created in a previous assignment to calculate the product of matrices and vectors making use of the associative property $A(Bv) = (AB)v$ of matrix and vector multiplication.
 
 ```{r "Validating the function", include=FALSE}
 head(sim.data)
@@ -205,8 +206,8 @@ sim.model <- lm(y~1+x2+x3+x4+x5, data = sim.data)
 design_X <- as.matrix(sim.data[, c(2:6)])
 y <- as.vector(sim.data[, 1])
 c1 <- sim.model$coefficients
-c2 <- chol.beta.estimator(design_X, y)
-c3 <- QR.beta.estimator(design_X, y)
+c2 <- chol.beta.est(design_X, y)
+c3 <- QR.beta.est(design_X, y)
 beta_estimates <- cbind(c1, c2, c3)
 colnames(beta_estimates) <- c("lm function", "Cholesky", "QR")
 ```
@@ -221,14 +222,11 @@ beta_estimates %>%
         booktabs = TRUE)
 ```
 
-
-## Comparing Performance
-
 ```{r "microbenchmarking", include=FALSE}
 set.seed(1223)
 library(bench)
-chol_results <- as.data.frame(bench::mark(chol.beta.estimator(design_X, y)))
-qr_results <- as.data.frame(bench::mark(QR.beta.estimator(design_X, y)))
+chol_results <- as.data.frame(bench::mark(chol.beta.est(design_X, y)))
+qr_results <- as.data.frame(bench::mark(QR.beta.est(design_X, y)))
 results <- rbind(chol_results, qr_results)
 rownames(results) <- c("Cholesky Decomposition", "QR Decomposition")
 ```
@@ -242,3 +240,7 @@ results %>%
         caption = "Results of Microbenchmarking",
         booktabs = TRUE)
 ```
+
+The results of benchmarking the computational efficiency of both implementations suggest that QR decomposition (done in a minimum time of $219\mu s$) is about 3 times as fast as Cholesky decomposition (done in a minimum time of $578\mu s$). 
+
+
