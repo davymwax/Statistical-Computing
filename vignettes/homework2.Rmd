@@ -128,9 +128,9 @@ In general I show that $\text{det}(X^TX) = [\text{det}(R)]^2$
 
 ## Question 4
 
-Here I write an R function that takes as input an $n$ dimensional numeric vector $\bf{\mu}$ and a $n \times n$ positive definite matrix $\bf{\Sigma}$ and returns $N$ realizations from a multivariate normal distribution $\text{MVN}(\bf{\mu}, \bf{\Sigma})$ using Cholesky decomposition. Written code and documentation for the function, which I call `multvnorm()`, is found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/multvnorm.R).
+Here I wrote an R function [`multvnorm()`]((https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/multvnorm.R)) that takes as input an $n$ dimensional numeric vector $\bf{\mu}$ and a $n \times n$ positive definite matrix $\bf{\Sigma}$ and returns $N$ realizations from a multivariate normal distribution $\text{MVN}(\bf{\mu}, \bf{\Sigma})$ using Cholesky decomposition.
 
-I create a test case with $n = 4$ and $N = 100$ and use the sample mean and sample covariance matrices to validate my function. I also compare my function to the existing multivariate normal simulator `mvrnorm()` implemented in the [MASS package](https://cran.r-project.org/web/packages/MASS/index.html).
+I create a test case with $n = 4$ and $N = 100$ and use the sample mean and sample covariance matrices to validate my function. I also compare my function to the existing multivariate normal simulator [`mvrnorm()`](MASS::mvrnorm) implemented in the [MASS package](https://cran.r-project.org/web/packages/MASS/index.html).
 
 
 ```{r "Loading multvnorm and beta.estimator", echo=FALSE}
