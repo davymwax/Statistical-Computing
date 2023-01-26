@@ -96,9 +96,9 @@ X(X^TX)^{-1}X^T = QQ^T
 \begin{aligned}
 X(X^TX)^{-1}X^T &= (QR)((QR)^T(QR))^{-1}(QR)^T \\
 &=(QR)(R^TQ^T(QR))^{-1}R^TQ^T \\
-&=(QR)(R^TR)^{-1}R^TQ^T \,\,\,\text{since}\,\, Q^{T}Q = I\\
-&=(QR)R^TQ^T \,\,\,\text{since}\,\, R^{T}R = I\\
-&=QQ^T \,\,\,\text{since} R^{T}R = I
+&=(QR)(R^TR)^{-1}R^TQ^T \,\,\,\text{since}\,\, Q^{T}Q = I \,\,\text{because}\,\, X \,\,\text{is full rank, $Q$ is orthonormal}\\
+&=(QR)(R)^{-1}(R^T)^{-1}R^TQ^T\,\,\text{since} \,\,R\,\,\text{and}\,\,R^T \,\,\text{are invertible} \,\,\text{because}\,\, X \,\,\text{is full rank}\\
+&=QQ^T \,\,\,\text{since}\,\,RR^{-1}= (R^{T})^{-1}R^{T} = I
 \end{aligned}
 \]
 
@@ -121,7 +121,7 @@ In general I show that $\text{det}(X^TX) = [\text{det}(R)]^2$
           &= \text{det}(R^TQ^TQR) \\
           &= \text{det}(R^TR)\,\,\,\text{since}\,\,Q^TQ = I\\ 
           &= \text{det}(R^T)\text{det}(R) \\
-          &= \text{det}(R)\text{det}(R) \,\,\,\text{since}\,\,R^T = R\\ 
+          &= \text{det}(R)\text{det}(R) \,\,\,\text{since}\,\,R \,\,\text{is upper triangular diagonal of}\,\,R = \text{diagonal of}\,\, R^T\\ 
           &= [\text{det}(R)]^2
 \end{aligned}
 \]
