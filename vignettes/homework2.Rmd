@@ -16,7 +16,121 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Introduction
+## Question 1
+
+Here I find by hand the Cholesky decomposition $L$ of the matrix $A$ below.
+
+\[
+A = \begin{pmatrix} 
+2 & - 2 \\
+-2 & 5
+\end{pmatrix}
+\]
+
+I find it by solving the following matrix equation for $\ell_{11}$, $\vec{\ell}$ and $\ell_{22}$ by forward substitution.
+
+\[
+A = \begin{pmatrix} 
+2 & - 2 \\
+-2 & 5
+\end{pmatrix} = \begin{pmatrix} \ell_{11} & \vec{\bf{0}} & \\
+\vec{\ell} & \ell_{22}
+\end{pmatrix} \begin{pmatrix} \ell_{11} & \ell_{11}^{T} & \\
+\vec{\bf{0}}^{T} & \ell_{22}^{T}
+\end{pmatrix}
+\]
+
+\[
+\ell_{11}^{2} = 2  \\
+\vec{\ell}\ell_{11} = -2 \\
+\implies \ell_{11} = \boxed{\sqrt{2}}  \\
+\implies \vec{\ell} = \boxed{\frac{-2}{\sqrt{2}}}
+\]
+
+\[
+\ell_{11}\vec{\ell}^{T} = -2\\
+\vec{\ell}\vec{\ell}^{T} + \ell_{22}\ell_{22}^{T}= 5 \\
+\implies \text{From}\,\, \ell_{11} = \sqrt{2}\,\, \text{that}\,\, \vec{\ell}^{T} = \frac{-2}{\sqrt{2}} \\
+\implies 2 + \ell_{22}^{2} = 5 \\
+\implies \ell_{22} = \sqrt{5 - 2} = \boxed{\sqrt{3}}
+\]
+
+\[
+\implies L = \begin{pmatrix}
+\sqrt{2} & 0 \\
+\frac{-2}{\sqrt{2}} & \sqrt{3}
+\end{pmatrix}
+\]
+
+## Question 2
+
+Supposing that the matrix $A = \{a_{ij} \}$ is banded in the sense that $a_{ij} = 0$ when $|i - j| < d$, I prove that the Cholesky decomposition $B = \{b_{ij} \}$ also satisfies the band condition.
+
+$a_{ij} = 0$ when $|i - j| > d$ implies that the matrix $A = \{a_{ij}\}$ only has diagonal entries for some thresh-hold $d$. If $B = \{b_{ij} \}$ is the Cholesky decomposition of $A$, this means that $BB^{T} = A$. So we can write: 
+
+\[
+A = \begin{pmatrix} 
+a_{11} & 0 \\
+0 & \vec{a}_{22}
+\end{pmatrix} = \begin{pmatrix} b_{11} & \vec{\bf{0}} & \\
+\vec{b} & b_{22}
+\end{pmatrix} \begin{pmatrix} b_{11} & \vec{b}^{T} & \\
+\vec{\bf{0}}^{T} & b_{22}^{T}
+\end{pmatrix} = \begin{pmatrix} 
+b_{11}^{2} & b_{11}\vec{b}^{T} \\
+\vec{b}b_{11} & \vec{b}b^{T} + b_{22}^{2}
+\end{pmatrix}
+\]
+
+I need to argue that $\vec{b} = 0$. There are two cases to consider $b_{11}\vec{b}^{T}  = 0$ and $\vec{b}b_{11} = 0$. Since $b_{11}\vec{b}^{T}  = 0$, this means that $\vec{b}^{T} = 0$ since $a_{11} = b_{11}^{2} > 0$ implies that $b_{11} = \sqrt{a_{11}}$ is either less than $0$ or greater than $0$. Further since $bb_{11} = 0$, this means that $\vec{b} = 0$ since $b_{11} = \sqrt{a_{11}}$ is either less than $0$ or greater than $0$. In either case we find that $\vec{b} = 0$. So for $|i - j|>d$, $B = \{b_{ij}\}$ satisfies the band condition.
+
+## Question 3
+
+Here I show that if $X = QR$ is the $QR$ decomposition of $X$, where $X$ has linearly independent columns, that 
+\[
+X(X^TX)^{-1}X^T = QQ^T
+\]
+
+\[
+\begin{aligned}
+X(X^TX)^{-1}X^T &= (QR)((QR)^T(QR))^{-1}(QR)^T \\
+&=(QR)(R^TQ^T(QR))^{-1}R^TQ^T \\
+&=(QR)(R^TR)^{-1}R^TQ^T \,\,\,\text{since}\,\, Q^{T}Q = I\\
+&=(QR)R^TQ^T \,\,\,\text{since}\,\, R^{T}R = I\\
+&=QQ^T \,\,\,\text{since} R^{T}R = I
+\end{aligned}
+\]
+
+Further I show that $|\text{det}(X)| = |\text{det}(QR)|$ when $X$ is square.
+
+\[
+\begin{aligned}
+|\text{det}(X)| &= |\text{det}(QR)| \\
+ &= |\text{det}(Q)\text{det}(R)| \\
+ &= |\pm1 \text{det}(R)| \,\,\,\text{since}\,\,Q \,\,\text{is orthonormal} \\
+ &= |\text{det}(R)|
+\end{aligned}
+\]
+
+In general I show that $\text{det}(X^TX) = [\text{det}(R)]^2$
+
+\[
+\begin{aligned}
+\text{det}(X^TX) &= \text{det}((QR)^TQR)\\
+          &= \text{det}(R^TQ^TQR) \\
+          &= \text{det}(R^TR)\,\,\,\text{since}\,\,Q^TQ = I\\ 
+          &= \text{det}(R^T)\text{det}(R) \\
+          &= \text{det}(R)\text{det}(R) \,\,\,\text{since}\,\,R^T = R\\ 
+          &= [\text{det}(R)]^2
+\end{aligned}
+\]
+
+## Question 4
+
+Here I write an R function that takes as input an $n$ dimensional numeric vector $\bf{\mu}$ and a $n \times n$ positive definite matrix $\bf{\Sigma}$ and returns $N$ realizations from a multivariate normal distribution $\text{MVN}(\bf{\mu}, \bf{\Sigma})$ using Cholesky decomposition. Written code and documentation for the function, which I call `multvnorm()`, is found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/multvnorm.R).
+
+I create a test case with $n = 4$ and $N = 100$ and use the sample mean and sample covariance matrices to validate my function. I also compare my function to the existing multivariate normal simulator `mvrnorm()` implemented in the [MASS package](https://cran.r-project.org/web/packages/MASS/index.html).
+
 
 ```{r "Loading multvnorm and beta.estimator", echo=FALSE}
 library(temp)
@@ -26,9 +140,6 @@ source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/chol.bet
 source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/QR.beta.est.R")
 source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/multvnorm.R")
 ```
-
-
-## Simulation of Multivariate Normal
 
 ```{r "Validating the simulation", echo=FALSE}
 library(MASS)
@@ -55,12 +166,13 @@ MASS_function_mu <- apply(M_2,1,mean)
 compare_1 <- cbind(mu, my_function_mu, MASS_function_mu)
 colnames(compare_1) <- c("Actual", "My Simulator", "MASS Package Simulator")
 
-my_function_sigma <- apply(M_1, 1, var)
+my_function_sigma <- apply(M_1, 1,var)
 MASS_function_sigma <- apply(M_2,1, var)
 
 compare_2 <- cbind(diag(sigma), my_function_sigma, MASS_function_sigma)
 colnames(compare_2) <- c("Actual", "My Simulator", "MASS Package Simulator")
 ```
+
 
 ```{r "tab1", echo=FALSE}
 library(kableExtra)
@@ -81,9 +193,11 @@ compare_2 %>%
         booktabs = TRUE)
 ```
 
+Although, the sample mean results of `multvnorm()` are quite close to the actual sample mean, the sample variance results of `multvnorm()` are somewhat larger compared to the actual sample variance. However, the fact that larger values of actual sample variance correspond to larger values of the sample variance from `multvnorm()` suggests that at least something is right.
 
-## Ordinary Least Squares Estimates
+## Question 5
 
+Here I obtain OLS estimates of the regression coefficients of a linear model fitted to the data in `homework2_regression.csv` found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/homework2_regression.csv). I implement two functions to obtain these estimates, [`chol.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/chol.beta.est.R) and [`QR.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/QR.beta.est.R). These functions use a Cholesky decomposition and QR decomposition, respectively. The implementation and documentation of the functions can be found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/tree/main/man). In paying attention to the order of operations so that my computations are performed efficiently, I used the function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/matvecprod.R) I created in a previous assignment to calculate the product of matrices and vectors making use of the associative property $A(Bv) = (AB)v$ of matrix and vector multiplication.
 
 ```{r "Validating the function", include=FALSE}
 head(sim.data)
@@ -103,7 +217,7 @@ beta_estimates %>%
   kable(format = "html",
         align = "c",
         digits = 4,
-        caption = "Regression Coefficient Estimates",
+        caption = "Comparing Regression Coefficient Estimates",
         booktabs = TRUE)
 ```
 
