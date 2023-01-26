@@ -10,7 +10,6 @@
 #' 
 #' X <- matrix(c(16, 12, 28, 36, 12, 58, 77, 41, 28, 77, 138, 134, 36, 41, 134, 431), byrow =T, nrow=4)
 #' y <- c(7, 18, 4, 11)
-#' chol.beta.estimator(X, y)
 #' QR.beta.estimator(X, y)
 #' 
 QR.beta.estimator <- function(X, y){
