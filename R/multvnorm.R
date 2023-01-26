@@ -18,17 +18,7 @@
 #' X = matrix(data=sample(1:100, replace = F, n*n), nrow=n)
 #' sigma = cov(X)
 #' multvnorm(mu, sigma, N)
-#' 
-#' @comparison
-#' Comparing the results with the implementation in the MASS package
-#' 
-#' @examples
-#' library(MASS)
-#' mean(sapply(multvnorm(mu, sigma, N), mean))
-#' mean(mvrnorm(n = N, mu, sigma))
-#' 
-#' sigma
-#' var(mvrnorm(n = N, mu, sigma))
+#'
 multvnorm <- function(mu, sigma, N){
   n = length(mu)
   z = vector(mode = "list", length = N)

@@ -18,15 +18,113 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-```{r setup}
+```{r "Loading multvnorm and beta.estimator", echo=FALSE}
 library(temp)
 sim.data <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/homework2_regression.csv")
 source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/matvecprod.R")
-source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/OLSestimates.R")
-dim(sim.data)
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/chol.beta.est.R")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/QR.beta.est.R")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/multvnorm.R")
+```
+
+
+## Simulation of Multivariate Normal
+
+```{r "Validating the simulation", echo=FALSE}
+library(MASS)
+set.seed(1247)
+N = 100
+n = 4
+mu = sample(1:10, 4, replace=T)
+X <- matrix(c(1.6, 1.2, 2.8, 3.6, 1.2, 5.8, 7.7, 4.1, 2.8, 7.7, 13.8, 13.4, 3.6, 4.1, 13.4, 43.1), byrow =T, nrow=4)
+sigma = X
+
+M_1 <- matrix(data = NA, nrow=4, ncol=100)
+for (j in 1:100){
+  M_1[, j] <- multvnorm(mu, sigma, N)[[j]]
+  }
+
+M_2 <- matrix(data = NA, nrow=4, ncol=100)
+for (j in 1:100){
+  M_2[, j] <- mvrnorm(N, mu, sigma)[j,]
+}
+
+my_function_mu <- apply(M_1,1,mean)
+MASS_function_mu <- apply(M_2,1,mean)
+
+compare_1 <- cbind(mu, my_function_mu, MASS_function_mu)
+colnames(compare_1) <- c("Actual", "My Simulator", "MASS Package Simulator")
+
+my_function_sigma <- apply(M_1, 1, var)
+MASS_function_sigma <- apply(M_2,1, var)
+
+compare_2 <- cbind(diag(sigma), my_function_sigma, MASS_function_sigma)
+colnames(compare_2) <- c("Actual", "My Simulator", "MASS Package Simulator")
+```
+
+```{r "tab1", echo=FALSE}
+library(kableExtra)
+compare_1 %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Comparing Sample Mean Estimates",
+        booktabs = TRUE)
+```
+
+```{r "tab2", echo=FALSE}
+compare_2 %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Comparing Sample Variance",
+        booktabs = TRUE)
+```
+
+
+## Ordinary Least Squares Estimates
+
+
+```{r "Validating the function", include=FALSE}
 head(sim.data)
-X <- as.matrix(sim.data[, c(3:6)])
+sim.model <- lm(y~1+x2+x3+x4+x5, data = sim.data)
+design_X <- as.matrix(sim.data[, c(2:6)])
 y <- as.vector(sim.data[, 1])
-W = T
-beta.estimator(X, y, W)
+c1 <- sim.model$coefficients
+c2 <- chol.beta.estimator(design_X, y)
+c3 <- QR.beta.estimator(design_X, y)
+beta_estimates <- cbind(c1, c2, c3)
+colnames(beta_estimates) <- c("lm function", "Cholesky", "QR")
+```
+
+
+```{r "tab3", echo=FALSE}
+beta_estimates %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Regression Coefficient Estimates",
+        booktabs = TRUE)
+```
+
+
+## Comparing Performance
+
+```{r "microbenchmarking", include=FALSE}
+set.seed(1223)
+library(bench)
+chol_results <- as.data.frame(bench::mark(chol.beta.estimator(design_X, y)))
+qr_results <- as.data.frame(bench::mark(QR.beta.estimator(design_X, y)))
+results <- rbind(chol_results, qr_results)
+rownames(results) <- c("Cholesky Decomposition", "QR Decomposition")
+```
+
+```{r "tab4", echo=FALSE}
+results <- results[, c(2, 3)]
+results %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Results of Microbenchmarking",
+        booktabs = TRUE)
 ```
