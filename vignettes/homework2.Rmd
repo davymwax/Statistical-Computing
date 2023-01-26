@@ -241,6 +241,6 @@ results %>%
         booktabs = TRUE)
 ```
 
-The results of benchmarking the computational efficiency of both implementations suggest that QR decomposition (done in a minimum time of $219\mu s$) is about 3 times as fast as Cholesky decomposition (done in a minimum time of $578\mu s$). 
+The results of benchmarking the computational efficiency of both implementations suggest that QR decomposition is about 2 to 3 times as fast as Cholesky decomposition. 
 
 
