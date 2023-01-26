@@ -1,5 +1,15 @@
-# My First Package
+# My Work in STATS 230 Winter 2023
 
-A package for carrying out checks on the optimization of matrix multiplications.
+Week 1
 
-We document in the .html file the level of optimization achieved by ordering matrix and vector multiplication as A(Bv) rather than (AB)v.
+See matvecprod.R in the R folder.
+The vignette is saved as homework1.Rmd
+
+Week 2
+
+See mulvnorm.R, chol.beta.est.R and QR.beta.est.R in the R folder.
+The vignette is saved as homework2.Rmd
+
+
+
+
