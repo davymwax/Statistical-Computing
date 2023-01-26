@@ -10,9 +10,9 @@
 #' 
 #' X <- matrix(c(16, 12, 28, 36, 12, 58, 77, 41, 28, 77, 138, 134, 36, 41, 134, 431), byrow =T, nrow=4)
 #' y <- c(7, 18, 4, 11)
-#' QR.beta.estimator(X, y)
+#' QR.beta.est(X, y)
 #' 
-QR.beta.estimator <- function(X, y){
+QR.beta.est <- function(X, y){
   QR <- qr(X)
   Q <- qr.Q(QR)
   R <- qr.R(QR)
@@ -20,4 +20,3 @@ QR.beta.estimator <- function(X, y){
   beta_hat = matvecprod(inv_R, t(Q), y, W=F)
   return(beta_hat)
 }
-
