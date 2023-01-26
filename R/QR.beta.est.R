@@ -20,3 +20,4 @@ QR.beta.estimator <- function(X, y){
   beta_hat = matvecprod(inv_R, t(Q), y, W=F)
   return(beta_hat)
 }
+
