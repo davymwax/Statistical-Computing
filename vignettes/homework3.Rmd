@@ -24,6 +24,7 @@ source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/QR.beta.
 source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/SVD.beta.est.R")
 ```
 
+## Question 3 Part (a)
 
 Here I obtain OLS estimates of the regression coefficients of a linear model fitted to the data in [`homework2_regression.csv`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/homework2_regression.csv). In a previous homework ([Homework 2](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/92549a9528772a3e311c8de17e180aeebb3213dd/vignettes/homework2.Rmd)) I implemented the following functions to obtain these estimates, [`chol.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/chol.beta.est.R) and [`QR.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/QR.beta.est.R). These functions use a Cholesky decomposition and QR decomposition, respectively. In this homework, I obtain the OLS estimates of the regression coefficients using singular value decomposition (SVD). The implementation and documentation of all of these functions can be found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/tree/main/man). In paying attention to the order of operations so that my computations are performed efficiently, I used the function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/matvecprod.R) I created in [Homework 1](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/92549a9528772a3e311c8de17e180aeebb3213dd/vignettes/homework1.Rmd) to calculate the product of matrices and vectors making use of the associative property $A(Bv) = (AB)v$ of matrix and vector multiplication.
 
@@ -41,7 +42,7 @@ colnames(beta_estimates) <- c("lm function", "Cholesky", "QR", "SVD")
 ```
 
 
-```{r "tab3", echo=FALSE}
+```{r "tab1", echo=FALSE}
 beta_estimates %>%
   kable(format = "html",
         align = "c",
@@ -49,6 +50,10 @@ beta_estimates %>%
         caption = "Comparing Regression Coefficient Estimates",
         booktabs = TRUE)
 ```
+
+
+## Question 3 Part (b)
+
 
 ```{r "microbenchmarking", include=FALSE}
 set.seed(23758)
@@ -60,7 +65,7 @@ results <- rbind(chol_results, qr_results, svd_results)
 rownames(results) <- c("Cholesky Decomposition", "QR Decomposition", "Singular Value Decomposition")
 ```
 
-```{r "tab4", echo=FALSE}
+```{r "tab2", echo=FALSE}
 results <- results[, c(2, 3)]
 results %>%
   kable(format = "html",
@@ -72,3 +77,22 @@ results %>%
 
 The results of benchmarking the computational efficiency of both implementations suggest that QR decomposition is about 2 to 3 times as fast as Cholesky decomposition. Singular Value Decomposition is the fastest method compared to the other two being about 3.5 times as fast as Cholesky and about $20\%$ to $60\%$ faster than QR Decomposition.
 
+
+## Question 3 Part (c)
+
+Here I calculate the condition number of $X^{T}X$ for this regression problem.
+The $L_{2}$ norm-based condition number of a matrix $A$ is given by 
+\[
+\frac{\lambda_{\text{max}}(A)}{\lambda_{\text{min}}}
+\]
+where $\lambda_{\text{max}(A)}$ and $\lambda_{\text{min}(A)}$ are the largest and smallest singular values of $A$, respectively.
+
+So I can find the singular value decomposition of $X^{T}X$ and use this formula to obtain the the condition number of $X^{T}X$. I find the condition number is 3.018.
+
+```{r "Getting the L_2 condition number", include=FALSE}
+A = t(design_X) %*% design_X
+svd_A = svd(A)
+max_sv <- max(svd_A$d)
+min_sv <- min(svd_A$d)
+CondNum <- max_sv/min_sv
+```
