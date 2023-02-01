@@ -83,9 +83,9 @@ The results of benchmarking the computational efficiency of both implementations
 Here I calculate the condition number of $X^{T}X$ for this regression problem.
 The $L_{2}$ norm-based condition number of a matrix $A$ is given by 
 \[
-\frac{\lambda_{\text{max}}(A)}{\lambda_{\text{min}}}
+\frac{\lambda_{\text{max}}(A)}{\lambda_{\text{min}}(A)}
 \]
-where $\lambda_{\text{max}(A)}$ and $\lambda_{\text{min}(A)}$ are the largest and smallest singular values of $A$, respectively.
+where $\lambda_{\text{max}}(A)$ and $\lambda_{\text{min}}(A)$ are the largest and smallest singular values of $A$, respectively.
 
 So I can find the singular value decomposition of $X^{T}X$ and use this formula to obtain the the condition number of $X^{T}X$. I find the condition number is 3.018.
 
