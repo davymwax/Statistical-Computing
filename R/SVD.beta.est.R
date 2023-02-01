@@ -13,12 +13,14 @@
 #' SVD.beta.est(X, y)
 #' 
 SVD.beta.est <- function(X, y){
+  n <- length(y)
   SVD <- svd(X)
-  sigma <- as.matrix(SVD$d)
+  sigma <- diag(SVD$d)
   U <- SVD$u
   V <- SVD$v
   inv_sigma <- solve(sigma)
-  right_hand = matvecprod(inv_sigma, t(U) , y, W=F)
-  beta_hat = matvecprod(diag(4), diag(4), right_hand, W=F)
+  # right_hand = matvecprod(inv_sigma, t(U) , y, W=F)
+  # beta_hat = matvecprod(A = as.matrix(diag(n)), B=as.matrix(V), v=as.vector(right_hand), W=F)
+  beta_hat = V %*% (inv_sigma %*% (t(U) %*% y))
   return(beta_hat)
 }

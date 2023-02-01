@@ -1,0 +1,74 @@
+---
+title: "Homework 3"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{homework3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r "Loading the beta.estimators", echo=FALSE}
+library(temp)
+library(kableExtra)
+sim.data <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/homework2_regression.csv")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/matvecprod.R")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/chol.beta.est.R")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/QR.beta.est.R")
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/SVD.beta.est.R")
+```
+
+
+Here I obtain OLS estimates of the regression coefficients of a linear model fitted to the data in [`homework2_regression.csv`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/homework2_regression.csv). In a previous homework ([Homework 2](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/92549a9528772a3e311c8de17e180aeebb3213dd/vignettes/homework2.Rmd)) I implemented the following functions to obtain these estimates, [`chol.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/chol.beta.est.R) and [`QR.beta.est()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/QR.beta.est.R). These functions use a Cholesky decomposition and QR decomposition, respectively. In this homework, I obtain the OLS estimates of the regression coefficients using singular value decomposition (SVD). The implementation and documentation of all of these functions can be found [here](https://github.com/miningroup/your-stat-230-r-package-davymwax/tree/main/man). In paying attention to the order of operations so that my computations are performed efficiently, I used the function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/3ca9ddc9b6319547c0b8852d1f079e9bada7e357/R/matvecprod.R) I created in [Homework 1](https://github.com/miningroup/your-stat-230-r-package-davymwax/blob/92549a9528772a3e311c8de17e180aeebb3213dd/vignettes/homework1.Rmd) to calculate the product of matrices and vectors making use of the associative property $A(Bv) = (AB)v$ of matrix and vector multiplication.
+
+```{r "Validating the function", include=FALSE}
+head(sim.data)
+sim.model <- lm(y~1+x2+x3+x4+x5, data = sim.data)
+design_X <- as.matrix(sim.data[, c(2:6)])
+y <- as.vector(sim.data[, 1])
+c1 <- sim.model$coefficients
+c2 <- chol.beta.est(design_X, y)
+c3 <- QR.beta.est(design_X, y)
+c4 <- SVD.beta.est(design_X, y)
+beta_estimates <- cbind(c1, c2, c3, c4)
+colnames(beta_estimates) <- c("lm function", "Cholesky", "QR", "SVD")
+```
+
+
+```{r "tab3", echo=FALSE}
+beta_estimates %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Comparing Regression Coefficient Estimates",
+        booktabs = TRUE)
+```
+
+```{r "microbenchmarking", include=FALSE}
+set.seed(23758)
+library(bench)
+chol_results <- as.data.frame(bench::mark(chol.beta.est(design_X, y)))
+qr_results <- as.data.frame(bench::mark(QR.beta.est(design_X, y)))
+svd_results <- as.data.frame(bench::mark(SVD.beta.est(design_X, y)))
+results <- rbind(chol_results, qr_results, svd_results)
+rownames(results) <- c("Cholesky Decomposition", "QR Decomposition", "Singular Value Decomposition")
+```
+
+```{r "tab4", echo=FALSE}
+results <- results[, c(2, 3)]
+results %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Results of Microbenchmarking",
+        booktabs = TRUE)
+```
+
+The results of benchmarking the computational efficiency of both implementations suggest that QR decomposition is about 2 to 3 times as fast as Cholesky decomposition. Singular Value Decomposition is the fastest method compared to the other two being about 3.5 times as fast as Cholesky and about $20\%$ to $60\%$ faster than QR Decomposition.
+
