@@ -1,4 +1,6 @@
-# My Work in STATS 230 Winter 2023
+# David Mwakima
+
+## My Work in STATS 230 Winter 2023
 
 Here is how I have organized all the work I have been doing in STATS 230 Winter 2023.
 
