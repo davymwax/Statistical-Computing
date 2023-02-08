@@ -136,6 +136,7 @@ I create a test case with $n = 4$ and $N = 100$ and use the sample mean and samp
 ```{r "Loading multvnorm and beta.estimator", echo=FALSE}
 library(temp)
 sim.data <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/homework2_regression.csv")
+##some comments.
 ```
 
 ```{r "Validating the simulation", echo=FALSE}
