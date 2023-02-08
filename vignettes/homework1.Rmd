@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(temp)
 ```
 
 ## Introduction
@@ -27,69 +28,6 @@ This suggests the following thought. If the task is to find the value of $\bf{AB
 ## The function `matvecprod()`
 
 The function [`matvecprod()`](https://github.com/miningroup/your-stat-230-r-package-davymwax), which I have written, is used to show the advantages of ordering the operations in matrix multiplications suitably. It is written in such a way that by changing one of the parameters in the function, one can compute matrix and vector products in the two different possible ways mentioned above.
-
-```{r "matvecprod", echo=FALSE}
-library(temp)
-matvecprod <- function (A, B, v, W) {
-  m = dim(A)[1]
-  p = dim(B)[2]
-  r = dim(B)[1]
-  if (W == T){
-  if (is.matrix(A) & is.matrix(B) == F){
-    warning("Error! The first two arguments must be n by m matrices")
-  } else {
-    if (dim(A)[2] != dim(B)[1]){
-    warning("Error! Check that the number of columns and rows match in your matrix")} else {
-        C_1 = matrix(data = rep(0, m*p), nrow=m, ncol=p)
-      for (i in 1:m)
-      for (j in 1:p){
-            C_1[i, j] = sum(A[i, ] * B[, j])
-          }
-      if (is.vector(v) == F){
-    warning("Error! Third Argument must be a Vector")
-      } else {
-        n = length(v)
-        if(n != dim(C_1)[2]){
-          warning("Error! Check number of columns and dimensions of vector")} else {
-              M_1 = rep(0, m)
-            for (i in 1:m){
-                M_1[i] = sum(C_1[i, ] * v)
-              }
-            }
-          }
-        }
-  }
-  return(M_1)
-  }
-  if (W == F){
-    if (is.matrix(A) & is.matrix(B) == F){
-      warning("Error! The first two arguments must be n by m matrices")
-    } else {
-    if (is.vector(v) == F){
-      warning("Error! The third argument must be a vector")
-    } else {
-      n = length(v)
-      if(n != p){
-        warning("Error! Check number of columns and dimensions of vector")} else {
-          C_2 = rep(0, r)
-          for (i in 1:r){
-            C_2[i] = sum(B[i, ] * v)
-          }
-          if (dim(A)[2] != length(C_2)){
-            warning("Error! Check number of columns and dimensions of vector")} else {
-              M_2 = rep(0, m)
-              for (i in 1:m){
-                M_2[i] = sum(A[i, ] * C_2)
-              }
-            }
-          return(M_2)
-    }
-    }
-  }
-  }
-}
-
-```
 
 ## Usage
 
