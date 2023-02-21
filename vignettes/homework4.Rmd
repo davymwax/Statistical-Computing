@@ -1,5 +1,7 @@
 ---
-title: "homework4"
+title: "Homework 4"
+author: "David Mwakima"
+date: "02/21/2023"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{homework4}
@@ -10,19 +12,57 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  rmarkdown.html_vignette.check_title = FALSE
 )
-rm(list = ls())
 ```
 
-```{r setup}
+## Question 1 (Part (a))
+
+In this part I added to my package a function that can fit logistic regression to data using two optimization methods:
+
+\begin{itemize}
+\item Newton-Raphson/Fisher scoring/IRLS method
+\item Gradient descent/steepest ascent method
+\end{itemize}
+
+The function, `logistic_MLE()`, has its [source code](https://github.com/miningroup/your-stat-230-r-package-davymwax) here and the [documentation](https://github.com/miningroup/your-stat-230-r-package-davymwax) here. It returns:
+
+\begin{enumerate}
+\item MLEs of regression coefficients,
+\item their corresponding asymptotic confidence intervals,
+\item and a vector of the log-likelihoods "visited" by the chosen optimization option
+\end{enumerate}
+
+```{r "loading the function"}
 library(temp)
+```
+
+## Question 1 (Part (b))
+
+Here I apply my function to the heart-disease data taken from a larger dataset, described in  Rousseauw et al, 1983, South African Medical Journal. It consists of a retrospective sample of males in a heart-disease high-risk region of the Western Cape, South Africa.
+
+```{r "loading the data"}
 mydata <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/SAheart.csv")
+```
+
+```{r "comparing", echo=FALSE}
 Y <- as.numeric(mydata[, c("chd")])
 n <- length(Y)
-X <- as.matrix(mydata)
-init <- c(rep(0, n))
+X <- subset(mydata, select = -c(row.names,chd))
+X$famhist <- factor(X$famhist)
+X$famhist <- as.numeric(X$famhist)
+X$famhist[X$famhist == 1] <- 0
+X$famhist[X$famhist == 2] <- 1
+X <- as.matrix(X)
+p <- dim(X)[2]
+init <- c(rep(0, p + 1))
 iter <- 200
-model <- glm(chd~,family = binomial(link="logit"), data=mydata)
-model$coefficients
+newton_raphson <- logistic_MLE(Y, X, init, iter, method=1)
+gradient_desc <- logistic_MLE(Y, X, init, iter, method=2)
+model <- glm(chd~sbp+tobacco+ldl+adiposity+famhist+typea+obesity+alcohol+age,family = binomial(link="logit"), data=mydata)
 ```
+
+
+
+

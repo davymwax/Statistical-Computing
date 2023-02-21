@@ -7,7 +7,7 @@
 logistic_MLE(Y, X, init, iter, method)
 }
 \arguments{
-\item{Y:}{n times 1 matrix of binary responses}
+\item{Y:}{n times 1 vector of binary responses}
 
 \item{X:}{n times p-1 design matrix (these are your k = (p - 1) predictors; function will add intercept term)}
 
@@ -24,7 +24,7 @@ a list of MLE estimates, their corresponding asymptotic confidence intervals, an
 Logistic MLE
 }
 \examples{
-Y <- as.matrix(c(1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1))
+Y <- c(1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1)
 X <- matrix(data = c(3.89, 3.80, 3.54, 3.63, 3.16, 
 3.50, 3.34, 3.02, 2.87, 3.38, 3.56, 2.91), 
 ncol=1, byrow=F)

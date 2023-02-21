@@ -21,11 +21,11 @@
 logistic_MLE <- function(Y, X, init, iter, method){
   if (is.vector(Y) == F)
   {warning("Wrong class of object for Y")} else {
-    if (is.matrix(X) & (dim(Y)[1] == dim(X)[1]) == F)
+    if (is.matrix(X) == F | (length(Y) != dim(X)[1]))
     {warning("Wrong class of object for X. Check the dimensions of your objects")}}
-  if (missing(init) & (length(init) == dim(X)[2] + 1) == F)
+  if (missing(init) == T | length(init) != (dim(X)[2] + 1))
   {warning("Provide suitable values for the optimization. Check dimensions of your objects")} else {
-    if (missing(method) == T | method != 1 & method != 2)
+    if (missing(method) == T | method !=1 & method != 2) 
     {warning("Choose a suitable method. 1 for Fisher Scoring or 2 for Gradient Descent")}}
   if (method == 1){
   n = length(Y)
