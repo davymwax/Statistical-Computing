@@ -1,32 +1,32 @@
 #' Logistic MLE
 #'
-#' @param Y: n times 1 matrix of binary responses
+#' @param Y: n times 1 vector of binary responses
 #' @param X: n times p-1 design matrix (these are your k = (p - 1) predictors; function will add intercept term)
 #' @param init: vector p of initial values (include initial value for intercept term)
 #' @param method: An integer 1 for Newton-Raphson (Fisher Scoring), 2 for Gradient Descent
-#' @param iter: how many iterations are you willing to do
+#' @param iter: An integer for how many iterations are you willing to do
 #'
-#' @return a vector of MLE estimates of a logistic regression model
+#' @return a list of MLE estimates, their corresponding asymptotic confidence intervals, and vector of log-likelihoods
 #' @export
 #'
-#' @examples 
-#' rm(list = ls())
-#' Y <- c(1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1)
-#' X <- matrix(data = c(3.89, 3.80, 3.54, 3.63, 3.16, 3.50, 3.34, 3.02, 2.87, 3.38, 3.56, 2.91), ncol=1, byrow=F)
-#' init <- c(0, 0.95)
-#'
-#'
-#' rm(list = ls())
-#' mydata <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/SAheart.csv")
-#' Y <- as.numeric(mydata[, c("chd")])
-#' X <- as.matrix(mydata[, c("sbp", "ldl", "alcohol")])
-#' init <- c(0, 0, 0, 0)
+#' @examples Y <- c(1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1)
+#' X <- matrix(data = c(3.89, 3.80, 3.54, 3.63, 3.16, 
+#' 3.50, 3.34, 3.02, 2.87, 3.38, 3.56, 2.91), 
+#' ncol=1, byrow=F)
 #' iter <- 200
-#' 
-#' model <- glm(chd~sbp+ldl+alcohol,family = binomial(link="logit"), data=mydata)
-#' model$coefficients
-#'
+#' init <- c(0, 0)
+#' logistic_MLE(Y, X, init, iter, method = 1)
+#' logistic_MLE(Y, X, init, iter, method = 2)
+
 logistic_MLE <- function(Y, X, init, iter, method){
+  if (is.vector(Y) == F)
+  {warning("Wrong class of object for Y")} else {
+    if (is.matrix(X) & (dim(Y)[1] == dim(X)[1]) == F)
+    {warning("Wrong class of object for X. Check the dimensions of your objects")}}
+  if (missing(init) & (length(init) == dim(X)[2] + 1) == F)
+  {warning("Provide suitable values for the optimization. Check dimensions of your objects")} else {
+    if (missing(method) == T | method != 1 & method != 2)
+    {warning("Choose a suitable method. 1 for Fisher Scoring or 2 for Gradient Descent")}}
   if (method == 1){
   n = length(Y)
   intercept <- as.numeric(c(rep(1, n)))
@@ -92,7 +92,7 @@ logistic_MLE <- function(Y, X, init, iter, method){
   CIs <- cbind(LB=coeffs - 1.96*se, UB=coeffs + 1.96*se)
   log_lklhd <- log_lklhd[1:(steps+1)]
   output <- list(coeffs, CIs, log_lklhd)
-  names(output) <- c("MLE Coefficients", "Asymptotic 95% C.I", "Log-Likelihood Values")
+  names(output) <- c("MLE Coefficients", "Asymptotic 95% C.I.s", "Log-Likelihood Values")
   }
   if (method == 2){
   n = length(Y)
@@ -160,10 +160,11 @@ logistic_MLE <- function(Y, X, init, iter, method){
   CIs <- cbind(LB=coeffs - 1.96*se, UB=coeffs + 1.96*se)
   log_lklhd <- log_lklhd[1:(steps+1)]
   output<-list(coeffs, CIs, log_lklhd)
-  names(output)<-c("MLE Coefficients", "Asymptotic 95% C.I", "Log-Likelihood Values")
+  names(output)<-c("MLE Coefficients", "Asymptotic 95% C.I.s", "Log-Likelihood Values")
 }
   return(output)
 }
+
 
 
 

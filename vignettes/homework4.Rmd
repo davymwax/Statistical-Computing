@@ -1,0 +1,28 @@
+---
+title: "homework4"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{homework4}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+rm(list = ls())
+```
+
+```{r setup}
+library(temp)
+mydata <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/SAheart.csv")
+Y <- as.numeric(mydata[, c("chd")])
+n <- length(Y)
+X <- as.matrix(mydata)
+init <- c(rep(0, n))
+iter <- 200
+model <- glm(chd~,family = binomial(link="logit"), data=mydata)
+model$coefficients
+```

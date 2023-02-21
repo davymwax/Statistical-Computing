@@ -4,18 +4,32 @@
 \alias{logistic_MLE}
 \title{Logistic MLE}
 \usage{
-logistic_MLE(Y, X, method)
+logistic_MLE(Y, X, init, iter, method)
 }
 \arguments{
-\item{method}{}
-
 \item{Y:}{n times 1 matrix of binary responses}
 
-\item{X:}{n times p design matrix}
+\item{X:}{n times p-1 design matrix (these are your k = (p - 1) predictors; function will add intercept term)}
+
+\item{init:}{vector p of initial values (include initial value for intercept term)}
+
+\item{method:}{An integer 1 for Newton-Raphson (Fisher Scoring), 2 for Gradient Descent}
+
+\item{iter:}{An integer for how many iterations are you willing to do}
 }
 \value{
-a vector of MLE estimates of a logistic regression model
+a list of MLE estimates, their corresponding asymptotic confidence intervals, and vector of log-likelihoods
 }
 \description{
 Logistic MLE
+}
+\examples{
+Y <- as.matrix(c(1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1))
+X <- matrix(data = c(3.89, 3.80, 3.54, 3.63, 3.16, 
+3.50, 3.34, 3.02, 2.87, 3.38, 3.56, 2.91), 
+ncol=1, byrow=F)
+iter <- 200
+init <- c(0, 0)
+logistic_MLE(Y, X, init, iter, method = 1)
+logistic_MLE(Y, X, init, iter, method = 2)
 }
