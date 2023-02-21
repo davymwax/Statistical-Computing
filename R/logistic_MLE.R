@@ -91,6 +91,8 @@ logistic_MLE <- function(Y, X, init, iter, method){
   se <- sqrt(variance/n)
   CIs <- cbind(LB=coeffs - 1.96*se, UB=coeffs + 1.96*se)
   log_lklhd <- log_lklhd[1:(steps+1)]
+  output <- list(coeffs, CIs, log_lklhd)
+  names(output) <- c("MLE Coefficients", "Asymptotic 95% C.I", "Log-Likelihood Values")
   }
   if (method == 2){
   n = length(Y)
@@ -157,8 +159,10 @@ logistic_MLE <- function(Y, X, init, iter, method){
   se <- sqrt(variance/n)
   CIs <- cbind(LB=coeffs - 1.96*se, UB=coeffs + 1.96*se)
   log_lklhd <- log_lklhd[1:(steps+1)]
+  output<-list(coeffs, CIs, log_lklhd)
+  names(output)<-c("MLE Coefficients", "Asymptotic 95% C.I", "Log-Likelihood Values")
 }
-  return(list(coeffs, CIs, log_lklhd))
+  return(output)
 }
 
 
