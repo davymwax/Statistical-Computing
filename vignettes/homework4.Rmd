@@ -21,18 +21,14 @@ knitr::opts_chunk$set(
 
 In this part I added to my package a function that can fit logistic regression to data using two optimization methods:
 
-\begin{itemize}
-\item Newton-Raphson/Fisher scoring/IRLS method
-\item Gradient descent/steepest ascent method
-\end{itemize}
+* Newton-Raphson/Fisher scoring/IRLS method
+* Gradient descent/steepest ascent method
 
 The function, `logistic_MLE()`, has its [source code](https://github.com/miningroup/your-stat-230-r-package-davymwax) here and the [documentation](https://github.com/miningroup/your-stat-230-r-package-davymwax) here. It returns:
 
-\begin{itemize}
-\item[i.] MLEs of regression coefficients,
-\item[ii.] their corresponding asymptotic confidence intervals,
-\item[iii.] and a vector of the log-likelihoods "visited" by the chosen optimization option
-\end{itemize}
+i. MLEs of regression coefficients,
+ii. their corresponding asymptotic confidence intervals,
+iii. and a vector of the log-likelihoods "visited" by the chosen optimization option
 
 ```{r "loading the function", include=FALSE}
 library(temp)
@@ -42,13 +38,15 @@ source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/logistic
 
 ## Question 1 (Part (b))
 
-Here I apply my function to the heart-disease data taken from a larger dataset, described in  Rousseauw et al, 1983, South African Medical Journal. It consists of a retrospective sample of males in a heart-disease high-risk region of the Western Cape, South Africa.
+Here I apply my function to the heart-disease data taken from a larger dataset, described in  Rousseauw et al., 1983, South African Medical Journal. It consists of a retrospective sample of males in a heart-disease high-risk region of the Western Cape, South Africa.
+
+The following table shows how the results of my function compare to those obtained using the `glm()`.
 
 ```{r "loading the data", include=FALSE}
 mydata <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/SAheart.csv")
 ```
 
-```{r "comparing", echo=FALSE}
+```{r "comparing", include=FALSE}
 Y <- as.numeric(mydata[, c("chd")])
 n <- length(Y)
 X <- subset(mydata, select = -c(row.names,chd))
@@ -63,6 +61,24 @@ iter <- 200
 newton_raphson <- logistic_MLE(Y, X, init, iter, method=1)
 gradient_desc <- logistic_MLE(Y, X, init, iter, method=2)
 model <- glm(chd~sbp+tobacco+ldl+adiposity+famhist+typea+obesity+alcohol+age,family = binomial(link="logit"), data=mydata)
+```
+
+```{r "comparing betas", echo=FALSE}
+NR_betas <- as.data.frame(newton_raphson$`MLE Coefficients`)
+GD_betas <- as.data.frame(gradient_desc$`MLE Coefficients`)
+model_betas <- as.data.frame(model$coefficients)
+comparing_betas <- cbind(NR_betas, GD_betas, model_betas)
+colnames(comparing_betas) <- c("Newton-Raphson Algorithm", "Gradient Descent Algorithm", "glm() function")
+```
+
+```{r "tab1", echo=FALSE}
+comparing_betas %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Comparing the MLE Coefficient Estimates",
+        booktabs = TRUE) %>%
+  kable_styling()
 ```
 
 ## Question 1 (Part(c))
@@ -83,7 +99,7 @@ lines(x=seq(1:130),
 legend(x="bottomright", c("Newton-Raphson", "Gradient Descent"), lty = 1, col = c("red", "blue"))
 ```
 
-Here I benchmark the runtimes of the two optimization algorithms.
+Here I benchmark the runtimes of the two optimization algorithms and display the results in the following table.
 
 ```{r "microbenchmarking", include=FALSE}
 set.seed(23758)
@@ -101,6 +117,7 @@ results %>%
         align = "c",
         digits = 4,
         caption = "Results of Microbenchmarking",
-        booktabs = TRUE)
+        booktabs = TRUE) %>%
+  kable_styling()
 ```
 
