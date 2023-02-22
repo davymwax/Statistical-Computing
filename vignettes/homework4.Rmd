@@ -63,6 +63,21 @@ gradient_desc <- logistic_MLE(Y, X, init, iter, method=2)
 model <- glm(chd~sbp+tobacco+ldl+adiposity+famhist+typea+obesity+alcohol+age,family = binomial(link="logit"), data=mydata)
 ```
 
+## Question 1 (Part(c))
 
+Here I compare the convergence of the two optimization options by plotting iterations vs. log-likelihood values of the two optimization algorithms.
+
+```{r "comparing convergence"}
+plot(x=seq(1:5), 
+     y=newton_raphson$`Log-Likelihood Values`,
+     type = "l",
+     xlim = c(1,130),
+     ylab = "Log-Likelihood Values",
+     xlab = "Steps in Iteration",
+     col = "red")
+lines(x=seq(1:130), 
+      y=gradient_desc$`Log-Likelihood Values`,
+      col= "blue")
+```
 
 
