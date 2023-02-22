@@ -28,21 +28,23 @@ In this part I added to my package a function that can fit logistic regression t
 
 The function, `logistic_MLE()`, has its [source code](https://github.com/miningroup/your-stat-230-r-package-davymwax) here and the [documentation](https://github.com/miningroup/your-stat-230-r-package-davymwax) here. It returns:
 
-\begin{enumerate}
-\item MLEs of regression coefficients,
-\item their corresponding asymptotic confidence intervals,
-\item and a vector of the log-likelihoods "visited" by the chosen optimization option
-\end{enumerate}
+\begin{itemize}
+\item[i.] MLEs of regression coefficients,
+\item[ii.] their corresponding asymptotic confidence intervals,
+\item[iii.] and a vector of the log-likelihoods "visited" by the chosen optimization option
+\end{itemize}
 
-```{r "loading the function"}
+```{r "loading the function", include=FALSE}
 library(temp)
+library(kableExtra)
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/logistic_MLE.R")
 ```
 
 ## Question 1 (Part (b))
 
 Here I apply my function to the heart-disease data taken from a larger dataset, described in  Rousseauw et al, 1983, South African Medical Journal. It consists of a retrospective sample of males in a heart-disease high-risk region of the Western Cape, South Africa.
 
-```{r "loading the data"}
+```{r "loading the data", include=FALSE}
 mydata <- read.csv("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/SAheart.csv")
 ```
 
@@ -67,7 +69,7 @@ model <- glm(chd~sbp+tobacco+ldl+adiposity+famhist+typea+obesity+alcohol+age,fam
 
 Here I compare the convergence of the two optimization options by plotting iterations vs. log-likelihood values of the two optimization algorithms.
 
-```{r "comparing convergence"}
+```{r "comparing convergence", fig.width=7, fig.height=6, echo=FALSE}
 plot(x=seq(1:5), 
      y=newton_raphson$`Log-Likelihood Values`,
      type = "l",
@@ -78,6 +80,27 @@ plot(x=seq(1:5),
 lines(x=seq(1:130), 
       y=gradient_desc$`Log-Likelihood Values`,
       col= "blue")
+legend(x="bottomright", c("Newton-Raphson", "Gradient Descent"), lty = 1, col = c("red", "blue"))
 ```
 
+Here I benchmark the runtimes of the two optimization algorithms.
+
+```{r "microbenchmarking", include=FALSE}
+set.seed(23758)
+library(bench)
+NR_results <- as.data.frame(bench::mark(logistic_MLE(Y, X, init, iter, method=1)))
+GD_results <- as.data.frame(bench::mark(logistic_MLE(Y, X, init, iter, method=1)))
+results <- rbind(NR_results, GD_results)
+rownames(results) <- c("Newton-Raphson Algorithm", "Gradient Descent Algorithm")
+```
+
+```{r "tab2", echo=FALSE}
+results <- results[, c(2, 3)]
+results %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Results of Microbenchmarking",
+        booktabs = TRUE)
+```
 
