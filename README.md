@@ -18,4 +18,8 @@ The vignette is saved as homework2.Rmd
 
 See SVD.beta.est.R in the R folder. The vignette is saved as homework3.Rmd
 
+## Homework 4
+
+See logistic_MLE.R in the R folder. The vignette is saved as homework4.Rmd
+
 
