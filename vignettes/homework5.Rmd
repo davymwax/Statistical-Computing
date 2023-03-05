@@ -1,0 +1,46 @@
+---
+title: "homework5"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{homework5}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = FALSE
+)
+```
+
+```{r setup}
+library(temp)
+```
+
+# Question 1
+
+## Part (a)
+
+Here I write the complete log-likelihood for the mixture model.
+
+Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\bf{x}, \bf{y}\,|\, \alpha, \mu_{1}, \mu_{2})$ 
+
+## Part (b)
+
+Here I obtain an algebraic form of \[E \bigg[ \mathcal{l}(\alpha, \mu_{1}, \mu_{2} \,|\, \bf{y}, \alpha^{k}, \mu_{1}^{k}, \mu_{2}^{k}) \bigg]\], where the expectation is taken with respect to $\text{Pr}(\bf{x}| \bf{y}, \alpha^{(k)}, \mu_{1}^{(k)}, \mu_{2}^{(k)})$
+
+
+
+
+
+
+
+
+
+
+
+
+
