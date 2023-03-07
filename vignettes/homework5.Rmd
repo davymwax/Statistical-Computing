@@ -32,7 +32,19 @@ Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\bf{x}, \
 
 Here I obtain an algebraic form of \[E \bigg[ \mathcal{l}(\alpha, \mu_{1}, \mu_{2} \,|\, \bf{y}, \alpha^{k}, \mu_{1}^{k}, \mu_{2}^{k}) \bigg]\], where the expectation is taken with respect to $\text{Pr}(\bf{x}| \bf{y}, \alpha^{(k)}, \mu_{1}^{(k)}, \mu_{2}^{(k)})$
 
+## Part (c) 
 
+Here I maximize the expectation from part (b) to obtain the iterative equations for the EM algorithm
+
+
+## Part (d)
+
+Here I implement the EM algorithm and run it on the data saved in the file `mixture_data.txt`.
+
+
+## Part (e)
+
+Here I conduct a simulation study to estimate the bias of the MLE for the mixture model above.
 
 
 
