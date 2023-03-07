@@ -12,12 +12,14 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  echo = FALSE
+  echo = FALSE,
+  rmarkdown.html_vignette.check_title = FALSE
 )
 ```
 
 ```{r setup}
 library(temp)
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/EMfunction.R")
 ```
 
 # Question 1
@@ -26,11 +28,11 @@ library(temp)
 
 Here I write the complete log-likelihood for the mixture model.
 
-Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\bf{x}, \bf{y}\,|\, \alpha, \mu_{1}, \mu_{2})$ 
+Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\textbf{x}, \textbf{y}\,|\, \alpha, \mu_{1}, \mu_{2})$ 
 
 ## Part (b)
 
-Here I obtain an algebraic form of \[E \bigg[ \mathcal{l}(\alpha, \mu_{1}, \mu_{2} \,|\, \bf{y}, \alpha^{k}, \mu_{1}^{k}, \mu_{2}^{k}) \bigg]\], where the expectation is taken with respect to $\text{Pr}(\bf{x}| \bf{y}, \alpha^{(k)}, \mu_{1}^{(k)}, \mu_{2}^{(k)})$
+Here I obtain an algebraic form of \[E \bigg[ \mathcal{l}(\alpha, \mu_{1}, \mu_{2} \,|\, \textbf{y}, \alpha^{k}, \mu_{1}^{k}, \mu_{2}^{k}) \bigg]\], where the expectation is taken with respect to $\text{Pr}(\textbf{x}| \textbf{y}, \alpha^{(k)}, \mu_{1}^{(k)}, \mu_{2}^{(k)})$
 
 ## Part (c) 
 
@@ -45,6 +47,99 @@ Here I implement the EM algorithm and run it on the data saved in the file `mixt
 ## Part (e)
 
 Here I conduct a simulation study to estimate the bias of the MLE for the mixture model above.
+
+```{r "simulation study"}
+set.seed(23263)
+##Getting simulated x_i
+x <- matrix(data=NA, nrow=300, ncol=100)
+for (i in 1:100){
+    x[, i] <- rbinom(300, 1, 0.3)
+}
+
+##Getting simulated y_i
+mu <- c(2.1, 5.2)
+sd <- c(1, 0.8)
+y <- matrix(data=NA, nrow=300, ncol=100)
+for (i in 1:100){
+  for (j in 1:300)
+    y[, i] <- rnorm(300, mu[1+x[j, i]], sd[1+x[j, i]])
+}
+
+MLEs <- matrix(NA, nrow = 100, ncol=3)
+for (i in 1:100){
+  MLEs[i, ] <- EMfunction(y[, i], theta, iter=200)
+}
+```
+
+Using these simulation results, I estimate the bias of the MLE for $\alpha$. 
+
+```{r "bias of MLE_alpha"}
+expected_alpha_hat <- mean(MLEs[, 1])
+bias = expected_alpha_hat - 0.3
+bias
+```
+
+Finally, I estimate the associated Monte Carlo error.
+
+```{r "montecarlo erro"}
+sample_sd_alpha = sd(MLEs[, 1])
+MC_error = 1.96*sample_sd_alpha
+MC_error
+```
+
+
+# Question 2
+
+Here I show that if $(\bf{x}, \bf{y})$ form a hidden Markov model with 
+
+\[
+\text{Pr}(\textbf{x}, \textbf{y}) = \text{Pr}(x_{1}) \prod_{t = 2}^n \text{Pr}(x_{t}\,|\, x_{t - 1}) \prod_{t = 1}^n \text{Pr}(y_{t}\,|\,x_{t})
+\]
+
+then
+
+\[
+\text{Pr}(y_{i} \, | \, \textbf{x}_{1:i}, \textbf{y}_{1:i - 1}) = \text{Pr}(y_{i}\, |\, x_{i})\,\, \text{for} \,\, i = 1, \dots, n
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

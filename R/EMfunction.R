@@ -4,7 +4,6 @@ test_data <- read.table("~/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/mi
 y <- as.matrix(test_data)
 theta <- c(0.5, 4, 8)
 iter = 200
-
 #' MLE of Normal Mixture Models using the E-M Algorithm
 #'
 #' @param y: a vector of observed data
