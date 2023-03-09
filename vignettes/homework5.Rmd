@@ -251,13 +251,25 @@ hidden_prob <- H/rowSums(H)
 
 plot(time, hidden_prob[, 1], type="l", col="red",
      ylab="Probability Fair Die", ylim=c(0, 1))
-plot(time, X, type = "l", col="black", ylim=c(1, 2),
-     ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
+# plot(time, X, type = "l", col="black", ylim=c(1, 2),
+#      ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
+lines(time, X-1, type="l", col="black")
+legend("left",
+       legend = c("P(X_t = 1)", "true state"),
+       cex=0.75,
+       col=c("red", "black"),
+       lty=1)
 
 plot(time, hidden_prob[, 2], type="l", col="blue",
      ylab="Probability Loaded Die", ylim=c(0, 1))
-plot(time, X, type = "l", col="black", ylim=c(1, 2),
-     ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
+# plot(time, X, type = "l", col="black", ylim=c(1, 2),
+#      ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
+lines(time, X-1, type="l", col="black")
+legend("topleft",
+       legend = c("P(X_t = 2)", "true state"),
+       cex=0.75,
+       col=c("blue", "black"),
+       lty=1)
 ```
 
 
