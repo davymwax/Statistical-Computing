@@ -13,6 +13,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   echo = FALSE,
+  fig.align = "center",
+  fig.width = 5,
+  fig.height = 5,
   rmarkdown.html_vignette.check_title = FALSE
 )
 ```
@@ -49,7 +52,7 @@ Here I implement the EM algorithm and run it on the data saved in the file `mixt
 Here I conduct a simulation study to estimate the bias of the MLE for the mixture model above.
 
 ```{r "simulation study"}
-set.seed(23263)
+set.seed(2)
 ##Getting simulated x_i
 x <- matrix(data=NA, nrow=300, ncol=100)
 for (i in 1:100){
@@ -133,33 +136,94 @@ and initial distribution
 
 In this part I simulate $(\textbf{x}_{1:100}, \textbf{y}_{1:100})$ from this HMM and plot the hidden and observed states as time series.
 
+```{r "simulating the HMM"}
+set.seed(45)
+n = 100
+S = c(1, 2) #Hidden Markov variable state space
+outcomes = c(1:6) #
+D = c(0.5, 0.5) #initial distribution
+P = cbind(c(0.98,0.05),c(0.02,0.95)) #transition probabilities
+E = rbind(c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6),
+          c(1/10, 1/10, 1/2, 1/10, 1/10, 1/10)) #emission probabilities
+
+# Simulating the hidden Markov variable X
+X = rep(0, n)
+X[1] = sample(S, size=1, prob=D)
+for(i in 1:(n-1)){
+  X[i+1] = sample(S, size=1, prob=P[X[i],])
+}
+
+# Simulating the observed Y based on the emission probabilities.
+Y = rep(0, n)
+for (i in 1:n){
+ Y[i] = sample(outcomes, size=1, prob=E[X[i], ])
+}
+```
+
+```{r "plot1"}
+time <- c(1:n)
+plot(time, X-1, type = "l", col="red", ylab="Hidden States (0=Fair, 1=Loaded)",
+     ylim = c(0, 1))
+```
+
+```{r "plot2"}
+plot(time, Y, type="l", col="blue", ylab="observed states")
+```
 
 ## Part (b)
 
 Here I implement the forward and backward algorithms for the occasional dishonest casino example and run these algorithms on the observed states generated in part (a).
 
-Here is a plot of the marginal probabilities of hidden states at each time together with the true simulated states.
+```{r "forward algorithm"}
+A = matrix(NA, nrow=n, ncol=length(S))
 
+#initialize A
+A[1, ] <- D * E[, Y[1]]
 
+#forward algorithm
+for (t in 1:(n - 1)){
+  A[t+1, ] = E[, Y[t + 1]]*(A[t, ] %*% P)
+  A[t+1, ] = A[t+1, ]/sum(A[t+1, ])
+}
 
+# forward probabilities.
+forward_prob <- sum(A[100, ])
+```
 
+```{r "backward algorithm"}
+B = matrix(NA, nrow=n, ncol=length(S))
 
+#initialize B
+B[n, ] <- 1
 
+#backward algorithm
+for (t in (n-1):1){
+  for(i in 1:length(S)){
+B[t, i] = sum(B[t + 1, ]*P[i, ]*E[i:length(S), Y[t + 1]])
+  }
+B[t, ] = B[t, ]/sum(B[t, ])
+}
 
+#normalizing
 
+# backward probabilities.
+backward_prob <- (D[1] * E[1, Y[1]] * B[1, 1]) + (D[2] * E[2, Y[1]] * B[1, 2])
+```
 
+Finally here I compute marginal probabilities of hidden states at each time and plot them together with the true simulated values.
 
+```{r "hidden marginal probabilities"}
+H = A * B
+hidden_prob <- H/rowSums(H)
 
+plot(time, hidden_prob[, 1], type="l", col="red",
+     ylab="Probability Fair Die", ylim=c(0, 1))
+plot(time, X, type = "l", col="black", ylim=c(1, 2))
 
-
-
-
-
-
-
-
-
-
+plot(time, hidden_prob[, 2], type="l", col="blue",
+     ylab="Probability Loaded Die", ylim=c(0, 1))
+plot(time, X, type = "l", col="black", ylim=c(1, 2))
+```
 
 
 
