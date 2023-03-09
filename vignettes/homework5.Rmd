@@ -33,9 +33,13 @@ Here I write the complete log-likelihood for the mixture model.
 
 Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\textbf{x}, \textbf{y}\,|\, \alpha, \mu_{1}, \mu_{2})$ 
 
+See separate attachment.
+
 ## Part (b)
 
 Here I obtain an algebraic form of \[E \bigg[ \mathcal{l}(\alpha, \mu_{1}, \mu_{2} \,|\, \textbf{y}, \alpha^{k}, \mu_{1}^{k}, \mu_{2}^{k}) \bigg]\], where the expectation is taken with respect to $\text{Pr}(\textbf{x}| \textbf{y}, \alpha^{(k)}, \mu_{1}^{(k)}, \mu_{2}^{(k)})$
+
+See separate attachment
 
 ## Part (c) 
 
@@ -45,6 +49,24 @@ Here I maximize the expectation from part (b) to obtain the iterative equations 
 ## Part (d)
 
 Here I implement the EM algorithm and run it on the data saved in the file `mixture_data.txt`.
+
+```{r "Test case"}
+library(kableExtra)
+test_data <- read.table("~/Documents/09_R/07_Winter_23/STATS230/firstpkg/data/mixture_data.txt", 
+                        header = F)
+y <- as.matrix(test_data)
+theta <- c(0.5, 4, 8)
+iter = 200
+params <- as.matrix(EMfunction(y, theta, iter))
+rownames(params) <- c("alpha", "mu1", "mu2")
+params %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "E-M Algorithm MLE estimates",
+        booktabs = TRUE) %>%
+  kable_styling()
+```
 
 
 ## Part (e)
@@ -79,7 +101,6 @@ Using these simulation results, I estimate the bias of the MLE for $\alpha$.
 ```{r "bias of MLE_alpha"}
 expected_alpha_hat <- mean(MLEs[, 1])
 bias = expected_alpha_hat - 0.3
-bias
 ```
 
 Finally, I estimate the associated Monte Carlo error.
@@ -87,9 +108,19 @@ Finally, I estimate the associated Monte Carlo error.
 ```{r "montecarlo erro"}
 sample_sd_alpha = sd(MLEs[, 1])
 MC_error = 1.96*sample_sd_alpha
-MC_error
 ```
 
+```{r "results"}
+results <- rbind(bias, MC_error)
+rownames(results) <- c("Bias", "Monte Carlo Error")
+results %>%
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Bias of MLE for alpha and Monte Carlo error",
+        booktabs = TRUE) %>%
+  kable_styling()
+```
 
 # Question 2
 
@@ -104,6 +135,8 @@ then
 \[
 \text{Pr}(y_{i} \, | \, \textbf{x}_{1:i}, \textbf{y}_{1:i - 1}) = \text{Pr}(y_{i}\, |\, x_{i})\,\, \text{for} \,\, i = 1, \dots, n
 \]
+
+See attached document.
 
 
 # Question 3
@@ -162,8 +195,8 @@ for (i in 1:n){
 
 ```{r "plot1"}
 time <- c(1:n)
-plot(time, X-1, type = "l", col="red", ylab="Hidden States (0=Fair, 1=Loaded)",
-     ylim = c(0, 1))
+plot(time, X, type = "l", col="red", ylab="Hidden States (1=Fair, 2=Loaded)",
+     ylim = c(1, 2))
 ```
 
 ```{r "plot2"}
@@ -218,11 +251,13 @@ hidden_prob <- H/rowSums(H)
 
 plot(time, hidden_prob[, 1], type="l", col="red",
      ylab="Probability Fair Die", ylim=c(0, 1))
-plot(time, X, type = "l", col="black", ylim=c(1, 2))
+plot(time, X, type = "l", col="black", ylim=c(1, 2),
+     ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
 
 plot(time, hidden_prob[, 2], type="l", col="blue",
      ylab="Probability Loaded Die", ylim=c(0, 1))
-plot(time, X, type = "l", col="black", ylim=c(1, 2))
+plot(time, X, type = "l", col="black", ylim=c(1, 2),
+     ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
 ```
 
 
