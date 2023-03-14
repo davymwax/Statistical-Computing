@@ -6,13 +6,11 @@ Here is how I have organized all the work I have been doing in STATS 230 Winter 
 
 ## Homework 1
 
-See matvecprod.R in the R folder.
-The vignette is saved as homework1.Rmd
+See matvecprod.R in the R folder. The vignette is saved as homework1.Rmd
 
 ## Homework 2
 
-See mulvnorm.R, chol.beta.est.R and QR.beta.est.R in the R folder.
-The vignette is saved as homework2.Rmd
+See mulvnorm.R, chol.beta.est.R and QR.beta.est.R in the R folder. The vignette is saved as homework2.Rmd
 
 ## Homework 3
 
@@ -21,5 +19,9 @@ See SVD.beta.est.R in the R folder. The vignette is saved as homework3.Rmd
 ## Homework 4
 
 See logistic_MLE.R in the R folder. The vignette is saved as homework4.Rmd
+
+## Homework 5
+
+See EMfunction.R in the R folder. The vignette is saved as homework5.Rmd
 
 

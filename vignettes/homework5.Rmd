@@ -31,7 +31,7 @@ source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/EMfuncti
 
 Here I write the complete log-likelihood for the mixture model.
 
-Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\textbf{x}, \textbf{y}\,|\, \alpha, \mu_{1}, \mu_{2})$ 
+Let $\mathcal{l}(\alpha, \mu_{1}, \mu_{2})$ denote $\text{ln}\text{Pr}(\textbf{x}, \textbf{y}\,|\, \alpha, \mu_{1}, \mu_{2})$
 
 See separate attachment.
 
@@ -39,11 +39,13 @@ See separate attachment.
 
 Here I obtain an algebraic form of \[E \bigg[ \mathcal{l}(\alpha, \mu_{1}, \mu_{2} \,|\, \textbf{y}, \alpha^{k}, \mu_{1}^{k}, \mu_{2}^{k}) \bigg]\], where the expectation is taken with respect to $\text{Pr}(\textbf{x}| \textbf{y}, \alpha^{(k)}, \mu_{1}^{(k)}, \mu_{2}^{(k)})$
 
-See separate attachment
+See separate attachment.
 
 ## Part (c) 
 
-Here I maximize the expectation from part (b) to obtain the iterative equations for the EM algorithm
+Here I maximize the expectation from part (b) to obtain the iterative equations for the EM algorithm.
+
+See separate attachment.
 
 
 ## Part (d)
@@ -251,22 +253,18 @@ hidden_prob <- H/rowSums(H)
 
 plot(time, hidden_prob[, 1], type="l", col="red",
      ylab="Probability Fair Die", ylim=c(0, 1))
-# plot(time, X, type = "l", col="black", ylim=c(1, 2),
-#      ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
 lines(time, X-1, type="l", col="black")
 legend("left",
-       legend = c("P(X_t = 1)", "true state"),
+       legend = c("P(X_t = Fair)", "true state"),
        cex=0.75,
        col=c("red", "black"),
        lty=1)
 
 plot(time, hidden_prob[, 2], type="l", col="blue",
      ylab="Probability Loaded Die", ylim=c(0, 1))
-# plot(time, X, type = "l", col="black", ylim=c(1, 2),
-#      ylab="Hidden State (X = 1(Fair Die), X = 2(Loaded Die)")
 lines(time, X-1, type="l", col="black")
 legend("topleft",
-       legend = c("P(X_t = 2)", "true state"),
+       legend = c("P(X_t = Loaded)", "true state"),
        cex=0.75,
        col=c("blue", "black"),
        lty=1)
