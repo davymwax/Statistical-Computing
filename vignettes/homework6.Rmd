@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   fig.height = 5,
   rmarkdown.html_vignette.check_title = FALSE
 )
+library(kableExtra)
 ```
 
 
@@ -24,14 +25,19 @@ knitr::opts_chunk$set(
 
 ## Part (a) 
 
-Here I compute, approximately, $E(X^2)$ of $X \sim \text{Gamma}(4, 2)$ using naive Monte Carlo with 1000 samples. I find that the naive Monte Carlo estimate of $E(X^2)$ is $\boxed{75.117}$.
+Here I compute, approximately, $E(X^2)$ of $X \sim \text{Gamma}(4, 2)$ using naive Monte Carlo with 1000 samples. I find the following naive Monte Carlo estimate of $E(X^2)$.
 
 ```{r "naive MC", echo=FALSE}
 rm(list=ls())
 set.seed(123)
 gamma_samples_1 <- rgamma(1000, shape=4, scale=2)
 second_moment_1 <- mean(gamma_samples_1^2)
-second_moment_1
+second_moment_1 %>%
+  kable(format = "html",
+        digits = 4,
+        caption = "Naive Sampling Estimate of Second Moment",
+        align = "c",
+        booktabs = TRUE)
 ```
 
 
@@ -40,11 +46,11 @@ second_moment_1
 Here I use importance sampling with the $\text{LogNormal}(\mu = 8, \sigma^2 =1)$ instrument/nominal distribution with 1000 samples. The ratio function $\frac{f(x)}{g(x)}$ is given by:
 
 \begin{aligned}
-\frac{f(x)}{g(x)} &= \frac{x^{k - 1}\text{exp}(-x/\theta)}{x^{-1}\text{exp}(-(\text{log}(x)  - \mu)^2/2\sigma^2)} \nonumber \\
-&= x^{k} \text{exp}(-x/\theta + (\text{log}(x)  - \mu)^2/2\sigma^2) \nonumber 
+\frac{f(x)}{g(x)} &=C \frac{x^{k - 1}\text{exp}(-x/\theta)}{x^{-1}\text{exp}(-(\text{log}(x)  - \mu)^2/2\sigma^2)} \nonumber \\
+&= C x^{k} \text{exp}(-x/\theta + (\text{log}(x)  - \mu)^2/2\sigma^2) \nonumber 
 \end{aligned}
 
-Where for $\text{Gamma}(4, 2)$, $k = 4$ and $\theta = 2$ are the shape and rate parameters, respectively.
+Where for $\text{Gamma}(4, 2)$, $k = 4$ and $\theta = 2$ are the shape and rate parameters, respectively. I find that the following importance sampling Monte Carlo estimate of $E(X^2)$.
 
 ```{r "importance sampling MC",echo=FALSE}
 set.seed(1211)
@@ -61,18 +67,20 @@ ratio_function <- function (x, k, theta, mu, sigma){
 ratio <- ratio_function(instrument_samples, k, theta, mu, sigma)
 mean_2 <- sum(instrument_samples*ratio)/sum(ratio)
 second_moment_2 <- sum((instrument_samples^2)*ratio)/sum(ratio)
-second_moment_2
 fourth_moment_2 <- sum((instrument_samples^4)*ratio/sum(ratio))
+second_moment_2 %>%
+  kable(format = "html",
+        digits = 4,
+        align = "c",
+        caption="Importance Sampling Estimate \n of the Second Moment",
+        booktabs=TRUE)
 ```
-
-I find that the importance sampling Monte Carlo estimate of $E(X^2)$ is $\boxed{75.9698}$.
 
 # Part (c)
 
 Here I obtain the Monte Carlo errors and $95\%$ confidence intervals of both approximations and compare them.
 
 ```{r "Monte Carlo Error and CIs", echo=FALSE}
-library(kableExtra)
 variance_1 <- var(gamma_samples_1^2)
 variance_2 <- fourth_moment_2 - second_moment_2^2
 MCerror <- function(x, n){
@@ -174,10 +182,10 @@ The Rosenbluth-Hastings ratio corresponding to this proposal is:
 
 where $f(x) = \frac{1}{Z}x^{3}\text{exp}(-\frac{x}{2})$ is the Gamma(4, 2) upto a normalizing constant $\frac{1}{Z}$ and $q(\cdot | \cdot)$ = $\frac{1}{C}(\text{exp}(y))^{-1}\text{exp}\bigg(-\frac{(\text{log}(\text{exp}(y) - 1)^{2}}{2\text{exp}(\sigma^{2})}\bigg)$ is the proposal density upto a normalizing constant $\frac{1}{C}$
 
-Substituting $x^{\text{curr}}$ and $x^{\text{prop}} = x^{\text{curr}}\times \text{exp}(y)$ into $a_{\text{curr}, \text{prop}}$, this the Rosenbluth-Hastings ratio simplifies to:
+Substituting $x^{\text{curr}}$ and $x^{\text{prop}} = x^{\text{curr}}\times \text{exp}(y)$ into this the Rosenbluth-Hastings ratio and simplifying I get:
 
 \[
-x^{\text{curr}}\text{exp}(3y - \text{exp}(y))\text{exp}\bigg(\frac{-(y-1)^2 + (\text{log}(x^{\text{curr}})+y - 1)^2)}{2\text{exp}(\sigma^2)} \bigg)
+\boxed{x^{\text{curr}}\text{exp}(3y - \text{exp}(y))\text{exp}\bigg(\frac{-(y-1)^2 + (\text{log}(x^{\text{curr}})+y - 1)^2)}{2\text{exp}(\sigma^2)} \bigg)}
 \]
 
 # Part (c)
@@ -241,7 +249,7 @@ plot(1:iter,
 ## histogram
 hist(mcmc_output[,"state"], 
      xlab="MCMC State", 
-     main="Target Distribution Histogram")
+     main="Target Distribution \n Histogram")
 ```
 
 
