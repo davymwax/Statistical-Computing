@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Question 1
 
 ## Part (a) 
@@ -148,6 +149,100 @@ $\pi_{i}p_{ij}= \pi_{j}p_{ji}$
 
 # Question 3
 
+We want to approximate $E(X^2)$ from $\text{Gamma}(4, 2)$. $X \sim \text{Gamma}(4,2)$ looks like a right-skewed normal. So $\text{log}(X) \sim N(\mu, \sigma^2)$. So my idea for the Rosenbluth-Hastings algorithm is to simulate $Y = \text{log}(X)$ from a $N(0, \sigma^2)$, where $\sigma^2$ can be tuned appropriately because we know how do this.
+
+## Part(a)
+
+$x^{\text{prop}} = x^{\text{curr}}\times \text{exp}(y)$ will follow a $\text{LogNormal}(1, \text{exp}(\sigma^2))$. The proposal density is:
+\[
+\begin{aligned}
+q(x^{\text{prop}} | x^{\text{curr}}) &= \frac{1}{C}(x^{\text{curr}}\times \text{exp}(y))^{-1}\text{exp}\bigg(\frac{-(\text{log}((x^{\text{curr}}\times \text{exp}(y))-1)^2}{2\text{exp}(\sigma^2)}\bigg) \nonumber \\
+&= \frac{1}{C}(x^{\text{curr}}\times \text{exp}(y))^{-1}\text{exp}\bigg(\frac{-(\text{log}(x^{\text{curr}}) +  y-1)^2}{2\text{exp}(\sigma^2)}\bigg) \nonumber
+\end{aligned}
+\]
+
+
+## Part(b)
+
+The Rosenbluth-Hastings ratio corresponding to this proposal is:
+
+\[
+\begin{aligned}
+\frac{f(x^\text{prop})}{f(x^\text{curr})}\frac{q(x^{\text{curr}} | x^{\text{prop}})}{q(x^{\text{prop}} | x^{\text{curr}})}
+\end{aligned}
+\]
+
+where $f(x) = \frac{1}{Z}x^{3}\text{exp}(-\frac{x}{2})$ is the Gamma(4, 2) upto a normalizing constant $\frac{1}{Z}$ and $q(\cdot | \cdot)$ = $\frac{1}{C}(\text{exp}(y))^{-1}\text{exp}\bigg(-\frac{(\text{log}(\text{exp}(y) - 1)^{2}}{2\text{exp}(\sigma^{2})}\bigg)$ is the proposal density upto a normalizing constant $\frac{1}{C}$
+
+Substituting $x^{\text{curr}}$ and $x^{\text{prop}} = x^{\text{curr}}\times \text{exp}(y)$ into $a_{\text{curr}, \text{prop}}$, this the Rosenbluth-Hastings ratio simplifies to:
+
+\[
+x^{\text{curr}}\text{exp}(3y - \text{exp}(y))\text{exp}\bigg(\frac{-(y-1)^2 + (\text{log}(x^{\text{curr}})+y - 1)^2)}{2\text{exp}(\sigma^2)} \bigg)
+\]
+
+# Part (c)
+
+Here I add a function to perform this MCMC algorithm to my package, and document.
+
+
+# Part (d)
+
+Here is the approximation for $E(X^2)$ and the trace plot and a histogram of the samples.
+
+```{r "MCMC estimate of second moment"}
+set.seed(123)
+source("/Users/dmwakima/Documents/09_R/07_Winter_23/STATS230/firstpkg/R/GammaMCMC.R")
+iter <- 10000
+init <- 1
+tuning_param <- 2
+
+mcmc_output <- matrix(NA, nrow=iter, ncol=2)
+colnames(mcmc_output) <- c("state", "acceptance_status")
+
+curr_state <- c(init, 1)
+mcmc_output[1, ] <- curr_state
+
+for (i in 2:iter){
+  mcmc_output[i, ] <- lnorm_rw_next(mcmc_output[i-1, 1], tuning_param)
+}
+
+## acceptance probability
+# mean(mcmc_output[, "acceptance_status"])
+
+## second moment of X
+
+y = mcmc_output[,"state"]
+
+approx_second_moment <- cbind(mean(y^2), mean(mcmc_output[, "acceptance_status"]))
+
+colnames(approx_second_moment) = c("Estimate", "Acceptance Probability")
+
+approx_second_moment %>% 
+  kable(format = "html",
+        align = "c",
+        digits = 4,
+        caption = "Approximate Second Moment and Acceptance Probability",
+        booktabs = TRUE) %>%
+  kable_styling()
+```
+
+
+```{r "traceplots and histograms"}
+par(mfrow=c(2, 2))
+
+## trace plot
+plot(1:iter,
+     mcmc_output[, "state"],
+     type="l", 
+     xlab="Iteration", 
+     ylab="MCMC State", 
+     main="Trace Plot")
+
+## histogram
+hist(mcmc_output[,"state"], 
+     xlab="MCMC State", 
+     main="Target Distribution Histogram")
+```
 
 
 
