@@ -12,7 +12,8 @@ lnorm_rw_next(curr_val, tuning_param)
 \item{tuning_param}{This is a tuning parameter of the Normal random walk}
 }
 \value{
-Numeric vector of length 2. The first element of the vector contains the next state of the M-H Markov chain. The second element contains 0 if the proposed values was rejected and 1 otherwise.
+Numeric vector of length 2. The first element of the vector contains the next state of the R-H Markov chain. 
+The second element contains 0 if the proposed values was rejected and 1 otherwise.
 }
 \description{
 Rosenbluth-Hastings Gamma MCMC

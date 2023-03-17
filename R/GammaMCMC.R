@@ -3,7 +3,8 @@
 #' @param curr_val This is the current state of the R-H Markov chain
 #' @param tuning_param This is a tuning parameter of the Normal random walk
 #'
-#' @return Numeric vector of length 2. The first element of the vector contains the next state of the M-H Markov chain. The second element contains 0 if the proposed values was rejected and 1 otherwise. 
+#' @return Numeric vector of length 2. The first element of the vector contains the next state of the R-H Markov chain. 
+#' The second element contains 0 if the proposed values was rejected and 1 otherwise. 
 #' @export 
 #'
 #' @examples
