@@ -27,3 +27,7 @@ See EMfunction.R in the R folder. The vignette is saved as homework5.Rmd.
 ## Homework 6
 
 See GammaMCMC.R in the R folder. The vignette is saved as homework6.Rmd.
+
+## Final Project
+
+The write up for the Final Project on Informed Sub-Sampling (ISS) MCMC is saved as Stats230Report.pdf. It was joint work with Jizhi Zhang (UC, Irvine)
